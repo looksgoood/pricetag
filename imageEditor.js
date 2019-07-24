@@ -9,26 +9,22 @@ import React, { Component } from 'react';
 import {
   Platform,
   StyleSheet,
-  Text,
   View,
-  TouchableOpacity
 } from 'react-native';
-import resolveAssetSource from "react-native/Libraries/Image/resolveAssetSource";
+import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource';
 
-import { RNPhotoEditor } from 'react-native-photo-editor'
+import { RNPhotoEditor } from 'react-native-photo-editor';
 
-import RNFS from 'react-native-fs'
-import RNFetchBlob from 'rn-fetch-blob'
+import RNFS from 'react-native-fs';
+import RNFetchBlob from 'rn-fetch-blob';
+import { Navigation } from 'react-native-navigation';
 
-import photo from './assets/photo.jpg'
+import photo from './assets/photo.jpg';
 
-export default class ImageEditor extends Component<Props> {
+export class ImageEditor extends Component {
+
   constructor(props) {
-    super(props)
-
-    this.state = {
-      visible: false
-    }
+    super(props);
   }
 
   _onPress() {
@@ -36,45 +32,46 @@ export default class ImageEditor extends Component<Props> {
     if (Platform.OS === 'ios') {
       filter = [];
     } else if (Platform.OS === 'android') {
-      filter = ".*\\.*";
+      filter = '.*\\.*';
     }
 
     RNPhotoEditor.Edit({
-      path: RNFS.DocumentDirectoryPath + "/photo.jpg",
+      path: RNFS.DocumentDirectoryPath + '/photo.jpg',
       stickers: [
-        "sticker0",
-        "sticker1",
-        "sticker2",
-        "sticker3",
-        "sticker4",
-        "sticker5",
-        "sticker6",
-        "sticker7",
-        "sticker8",
-        "sticker9",
-        "sticker10"
+        'sticker0',
+        'sticker1',
+        'sticker2',
+        'sticker3',
+        'sticker4',
+        'sticker5',
+        'sticker6',
+        'sticker7',
+        'sticker8',
+        'sticker9',
+        'sticker10',
       ],
       hiddenControls: [],
       colors: undefined,
       onDone: () => {
-        console.log('on done')
+        console.log('on done');
       },
       onCancel: () => {
-        console.log('on cancel')
-      }
+        console.log('on cancel');
+        Navigation.pop(this.props.componentId);
+      },
     });
   }
 
   componentDidMount() {
-    let photoPath = RNFS.DocumentDirectoryPath + "/photo.jpg";
-    let binaryFile = resolveAssetSource(photo)
+    let photoPath = RNFS.DocumentDirectoryPath + '/photo.jpg';
+    let binaryFile = resolveAssetSource(photo);
 
     RNFetchBlob.config({ fileCache: true })
-      .fetch("GET", binaryFile.uri)
+      .fetch('GET', binaryFile.uri)
       .then(resp => {
         RNFS.moveFile(resp.path(), photoPath)
           .then(success => {
-            console.log("FILE WRITTEN!");
+            console.log('FILE WRITTEN!');
           })
           .catch(err => {
             console.log(err.message);
@@ -86,15 +83,11 @@ export default class ImageEditor extends Component<Props> {
   }
 
   render() {
-    return <View style={styles.container}>
-      <TouchableOpacity onPress={() => {
+    return (<View style={styles.container}>
+      {
         this._onPress()
-
-        // this.setState({ visible: true });
-      }}>
-        <Text>Click</Text>
-      </TouchableOpacity>
-    </View>;
+      }
+    </View>);
   }
 }
 
@@ -104,5 +97,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  }
+  },
 });

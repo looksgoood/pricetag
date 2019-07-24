@@ -3,7 +3,7 @@
 buildscript {
     ext {
         buildToolsVersion = '28.0.3'
-        minSdkVersion = 16
+        minSdkVersion = 19
         compileSdkVersion = 28
         targetSdkVersion = 28
         supportLibVersion = "28.0.0"
@@ -11,6 +11,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
         maven { url "https://jitpack.io" }
 
     }
@@ -37,5 +38,18 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
+    }
+}
+
+subprojects { subproject ->
+    afterEvaluate {
+        if ((subproject.plugins.hasPlugin('android') || subproject.plugins.hasPlugin('android-library'))) {
+            android {
+                compileSdkVersion rootProject.ext.compileSdkVersion
+                buildToolsVersion rootProject.ext.buildToolsVersion
+
+                variantFilter { variant -> if(variant.flavors*.name.any{it.contains('reactNative5')}){ setIgnore(true) } }
+            }
+        }
     }
 }
