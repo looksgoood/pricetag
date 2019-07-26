@@ -18,7 +18,7 @@ class Landing extends Component  {
   onPressOnReady = () => {
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'example.ImageEditor',
+        name: 'example.ImageSelector',
       },
     });
   }
