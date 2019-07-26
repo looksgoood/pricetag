@@ -3,6 +3,10 @@ import { StyleSheet, View, ImageBackground, Image, Button } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 export default class App extends Component {
+  state = {
+    isLoaded: false,
+  };
+
   _loadLanding = () => {
     Navigation.setStackRoot(this.props.componentId,
       {
@@ -13,8 +17,16 @@ export default class App extends Component {
     );
   };
 
-  render() {
+  componentDidMount() {
+    // TODO
+    setTimeout(() => {
+      this.setState({
+        isLoaded: true,
+      });
+    }, 1000);
+  }
 
+  render() {
     const splash = (
       <ImageBackground
         style={styles.splashBackground}
@@ -27,17 +39,11 @@ export default class App extends Component {
             resizeMode="contain"
           />
         </View>
-         <Button
-          style={styles.splashButtonContainer}
-          onPress={this._loadLanding}
-          title="Let's go"
-          color="#841584"
-        />
       </ImageBackground>
     );
     return (
       <View style={styles.container}>
-        {splash}
+        {this.state.isLoaded ? this._loadLanding() : splash}
       </View>
     );
   }
