@@ -8,62 +8,25 @@
 import React, { Component } from 'react';
 import {
   Platform,
-  Button,
   StyleSheet,
   View,
 } from 'react-native';
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource';
 
 import { RNPhotoEditor } from 'react-native-photo-editor';
-import ImagePicker from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
 import RNFetchBlob from 'rn-fetch-blob';
 import { Navigation } from 'react-native-navigation';
+import PropTypes from 'prop-types';
 
-import photo from './assets/photo.jpg';
-
-export class ImageEditor extends Component {
+class ImageEditor extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      filePath: {},
-      isSelected: false,
     };
   }
-  chooseFile = () => {
-    var options = {
-      title: 'Select Image',
-      customButtons: [
-        { name: 'customOptionKey', title: 'Choose Photo from Custom Option' },
-      ],
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    ImagePicker.showImagePicker(options, response => {
-      console.log('Response = ', response);
 
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        let source = response;
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-        this.setState({
-          filePath: source,
-          isSelected:true,
-        });
-
-      }
-
-    });
-  };
   _onPress(path) {
     let filter;
     if (Platform.OS === 'ios') {
@@ -101,7 +64,6 @@ export class ImageEditor extends Component {
   }
 
   componentDidMount() {
-
     let photoPath = RNFS.DocumentDirectoryPath + '/photo.jpg';
     console.log(photoPath);
     let binaryFile = resolveAssetSource(photo);
@@ -123,15 +85,26 @@ export class ImageEditor extends Component {
   }
 
   render() {
-    const { isSelected } = this.state;
-    console.log('state = ', this.state);
     return (<View style={styles.container}>
       {
-        isSelected ? this._onPress(this.state.filePath.path) : this.chooseFile()
+        this._onPress(this.props.image)
       }
     </View>);
   }
 }
+
+const propTypes = {
+    image: PropTypes.string,
+};
+
+const defaultProps = {
+    image: './assets/photo.jpg',
+};
+
+ImageEditor.propTypes = propTypes;
+ImageEditor.defaultProps = defaultProps;
+
+export default ImageEditor;
 
 const styles = StyleSheet.create({
   container: {

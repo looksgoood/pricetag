@@ -5,10 +5,14 @@
 import {Navigation} from 'react-native-navigation';
 import App from './App';
 import Landing from './landing';
+import ImageSelector from './imageSelector';
+import ImageUpload from './imageUpload';
 import {ImageEditor} from './imageEditor';
 
 Navigation.registerComponent('example.FirstScreen', () => App);
 Navigation.registerComponent('example.Landing', () => Landing);
+Navigation.registerComponent('example.ImageSelector', () => ImageSelector);
+Navigation.registerComponent('example.ImageUpload', () => ImageUpload);
 Navigation.registerComponent('example.ImageEditor', () => ImageEditor);
 Navigation.registerComponent('navigation.playground.WelcomeScreen', () => App);
 Navigation.setDefaultOptions({
