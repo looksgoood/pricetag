@@ -8,13 +8,14 @@
 import React, { Component } from 'react';
 import {
   Platform,
+  Button,
   StyleSheet,
   View,
 } from 'react-native';
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource';
 
 import { RNPhotoEditor } from 'react-native-photo-editor';
-
+import ImagePicker from 'react-native-image-picker';
 import RNFS from 'react-native-fs';
 import RNFetchBlob from 'rn-fetch-blob';
 import { Navigation } from 'react-native-navigation';
@@ -25,9 +26,45 @@ export class ImageEditor extends Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      filePath: {},
+      isSelected: false,
+    };
   }
+  chooseFile = () => {
+    var options = {
+      title: 'Select Image',
+      customButtons: [
+        { name: 'customOptionKey', title: 'Choose Photo from Custom Option' },
+      ],
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    ImagePicker.showImagePicker(options, response => {
+      console.log('Response = ', response);
 
-  _onPress() {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        let source = response;
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+        this.setState({
+          filePath: source,
+          isSelected:true,
+        });
+
+      }
+
+    });
+  };
+  _onPress(path) {
     let filter;
     if (Platform.OS === 'ios') {
       filter = [];
@@ -36,7 +73,7 @@ export class ImageEditor extends Component {
     }
 
     RNPhotoEditor.Edit({
-      path: RNFS.DocumentDirectoryPath + '/photo.jpg',
+      path: path,
       stickers: [
         'sticker0',
         'sticker1',
@@ -54,6 +91,7 @@ export class ImageEditor extends Component {
       colors: undefined,
       onDone: () => {
         console.log('on done');
+        Navigation.pop(this.props.componentId);
       },
       onCancel: () => {
         console.log('on cancel');
@@ -63,9 +101,11 @@ export class ImageEditor extends Component {
   }
 
   componentDidMount() {
-    let photoPath = RNFS.DocumentDirectoryPath + '/photo.jpg';
-    let binaryFile = resolveAssetSource(photo);
 
+    let photoPath = RNFS.DocumentDirectoryPath + '/photo.jpg';
+    console.log(photoPath);
+    let binaryFile = resolveAssetSource(photo);
+    console.log(binaryFile);
     RNFetchBlob.config({ fileCache: true })
       .fetch('GET', binaryFile.uri)
       .then(resp => {
@@ -83,9 +123,11 @@ export class ImageEditor extends Component {
   }
 
   render() {
+    const { isSelected } = this.state;
+    console.log('state = ', this.state);
     return (<View style={styles.container}>
       {
-        this._onPress()
+        isSelected ? this._onPress(this.state.filePath.path) : this.chooseFile()
       }
     </View>);
   }
