@@ -1,29 +1,48 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, ImageBackground, Image, Button } from 'react-native';
+import ImageIntent from 'react-native-image-intent';
 import { Navigation } from 'react-native-navigation';
 
 export default class App extends Component {
   state = {
     isLoaded: false,
+    imageUris:[],
   };
 
   _loadLanding = () => {
     Navigation.setStackRoot(this.props.componentId,
-      {
+    {
       component: {
-            name: 'example.Landing',
+          name: 'example.Landing',
+          passProps: {
+            images: this.state.imageUris,
           },
+        },
+        options: {
+          animations: {
+            setStackRoot: {
+              enabled: true,
+            },
+          },
+        },
       }
     );
   };
 
   componentDidMount() {
-    // TODO
-    setTimeout(() => {
+    ImageIntent.getImageIntentUrl().then((url) => {
       this.setState({
         isLoaded: true,
+        imageUris: url,
       });
-    }, 1000);
+    }).catch(e => {
+      setTimeout(() => {
+        this.setState({
+          isLoaded: true,
+        });
+      }, 1000);
+    });
+
   }
 
   render() {

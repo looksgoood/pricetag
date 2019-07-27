@@ -13,7 +13,7 @@ class ImageUpload extends Component  {
   }
 
   onPressNext = () => {
-    console.log("onPressNext");
+    console.log('onPressNext');
   }
 
   onPressImage = (image) => {
@@ -25,7 +25,7 @@ class ImageUpload extends Component  {
         },
       },
     });
-    console.log("onPressImage => ", image);
+    console.log('onPressImage => ', image);
   }
 
   render = () => {
@@ -48,7 +48,7 @@ class ImageUpload extends Component  {
         </Text>
         <View style={styles.imageContainer}>
           {this.props.images.map((curImage, i) => {
-            console.log("image: ", curImage);
+            console.log('image: ', curImage);
             return (
               <TouchableOpacity
                 style={styles.imageItem}
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlignVertical: 'center',
     textAlign: 'center',
-    color: 'blue'
+    color: 'blue',
   },
   content: {
     flex: 9,
