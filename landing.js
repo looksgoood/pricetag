@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-
+import PropTypes from 'prop-types';
 
 class Landing extends Component  {
   constructor(props) {
@@ -16,11 +16,24 @@ class Landing extends Component  {
   }
 
   onPressOnReady = () => {
-    Navigation.push(this.props.componentId, {
-      component: {
-        name: 'example.ImageSelector',
-      },
-    });
+    if (this.props.images.length > 0) {
+      Navigation.push(this.props.componentId, {
+        component: {
+          name: 'example.ImageUpload',
+          passProps: {
+            images: [
+                filePath,
+            ],
+          },
+        },
+      });
+    } else {
+      Navigation.push(this.props.componentId, {
+        component: {
+          name: 'example.ImageSelector',
+        },
+      });
+    }
   }
 
   render = () => {
@@ -39,6 +52,27 @@ class Landing extends Component  {
       </View>
     );
 
+    const IntentImages = (
+      <View>
+        <Text style={styles.onReadyDescription}>
+          {this.props.images.length} photos are ready to upload
+        </Text>
+        <View style={styles.onReadyImageContainer}>
+          {this.props.images.map((curImage, i) => {
+            console.log('image: ', curImage);
+            return (
+              <Image
+                style={styles.imageItem}
+                source={{uri: 'file://' + curImage}}
+                resizeMode="contain"
+                key={i}
+              />
+            );
+          })}
+        </View>
+      </View>
+    );
+
     const content = (
       <View style={styles.content}>
         <Image
@@ -48,22 +82,13 @@ class Landing extends Component  {
         />
         <Text style={styles.contentTitle}>Hello Jenny,</Text>
         <Text style={styles.contentDescription}>
-          Group, customive your photos in your own way.
+          Group, customize your photos in your own way.
         </Text>
         <View style={styles.onReadyContainer}>
           <TouchableOpacity style={styles.onReadyTitle} onPress={this.onPressOnReady}>
             <Text style={styles.onReadyTitle}>On Ready ></Text>
           </TouchableOpacity>
-          <Text style={styles.onReadyDescription}>
-            5 photos are ready to upload
-          </Text>
-          <View style={styles.onReadyImageContainer}>
-            <Image
-              style={styles.onReadyImage}
-              source={require('./assets/photo.jpg')}  // TODO
-              resizeMode="contain"
-            />
-          </View>
+          {this.props.images.length > 0 ? IntentImages : null}
         </View>
       </View>
     );
@@ -76,9 +101,18 @@ class Landing extends Component  {
   }
 }
 
+const propTypes = {
+    images: PropTypes.array,
+};
+
+const defaultProps = {
+    image: [],
+};
+
+Landing.propTypes = propTypes;
+Landing.defaultProps = defaultProps;
+
 export default Landing;
-
-
 
 const styles = StyleSheet.create({
   container: {
