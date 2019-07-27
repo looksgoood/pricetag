@@ -2,11 +2,28 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
-
+import ImagePicker from 'react-native-image-crop-picker';
 class Landing extends Component  {
   constructor(props) {
     super(props);
+    this.state = {
+      images: props.images,
+    };
   }
+  chooseFile = () => {
+    // TODO: multi file select logic
+    ImagePicker.openPicker({
+      multiple: true,
+      forceJpg: true,
+    }).then(images => {
+      this.setState({
+        images: images.map(i => {
+          return i.path.substring(7);
+        }),
+      });
+    }).catch(e => alert(e));
+  }
+
   onPressLogo = () => {
     console.log('onPressLogo pressed');
   }
@@ -16,23 +33,17 @@ class Landing extends Component  {
   }
 
   onPressOnReady = () => {
-    if (this.props.images.length > 0) {
+    if (this.state.images.length > 0) {
       Navigation.push(this.props.componentId, {
         component: {
           name: 'example.ImageUpload',
           passProps: {
-            images: [
-                filePath,
-            ],
+            images: this.state.images,
           },
         },
       });
     } else {
-      Navigation.push(this.props.componentId, {
-        component: {
-          name: 'example.ImageSelector',
-        },
-      });
+      this.chooseFile();
     }
   }
 
@@ -55,10 +66,10 @@ class Landing extends Component  {
     const IntentImages = (
       <View>
         <Text style={styles.onReadyDescription}>
-          {this.props.images.length} photos are ready to upload
+          {this.state.images.length} photos are ready to upload
         </Text>
         <View style={styles.onReadyImageContainer}>
-          {this.props.images.map((curImage, i) => {
+          {this.state.images.map((curImage, i) => {
             console.log('image: ', curImage);
             return (
               <Image
@@ -88,11 +99,11 @@ class Landing extends Component  {
           <TouchableOpacity style={styles.onReadyTitle} onPress={this.onPressOnReady}>
             <Text style={styles.onReadyTitle}>On Ready ></Text>
           </TouchableOpacity>
-          {this.props.images.length > 0 ? IntentImages : null}
+          {console.log(IntentImages)}
+          {this.state.images.length > 0 ? IntentImages : null}
         </View>
       </View>
     );
-    console.log(this.props);
     return (
     <View style={styles.container}>
       {title}
@@ -106,7 +117,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-    image: [],
+    images: [],
 };
 
 Landing.propTypes = propTypes;

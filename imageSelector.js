@@ -4,7 +4,8 @@ import {
   View,
 } from 'react-native';
 
-import ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
+
 import { Navigation } from 'react-native-navigation';
 
 class ImageSeletor extends Component {
@@ -35,7 +36,7 @@ class ImageSeletor extends Component {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         // TODO: multi file selec logic
-        let filePath = response.path
+        let filePath = response.path;
         Navigation.push(this.props.componentId, {
           component: {
             name: 'example.ImageUpload',
