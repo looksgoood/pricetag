@@ -11,8 +11,8 @@
     "react": "16.8.6",
     "react-native": "0.60.3",
     "react-native-fs": "^2.13.3",
+    "react-native-image-crop-picker": "^0.25.0",
     "react-native-image-intent": "^1.0.5",
-    "react-native-image-picker": "^1.0.1",
     "react-native-navigation": "^3.0.0-alpha.6",
     "react-native-photo-editor": "0.0.7",
     "rn-fetch-blob": "^0.10.16"

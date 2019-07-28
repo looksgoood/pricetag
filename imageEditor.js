@@ -66,7 +66,7 @@ class ImageEditor extends Component {
   componentDidMount() {
     let photoPath = RNFS.DocumentDirectoryPath + '/photo.jpg';
     console.log(photoPath);
-    let binaryFile = resolveAssetSource(photo);
+    let binaryFile = resolveAssetSource(photoPath);
     console.log(binaryFile);
     RNFetchBlob.config({ fileCache: true })
       .fetch('GET', binaryFile.uri)

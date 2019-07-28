@@ -30,7 +30,6 @@ target 'pricetag' do
 
   pod 'RNPhotoEditor', :path => '../node_modules/react-native-photo-editor'
 
-  pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
   pod 'RNFS', :path => '../node_modules/react-native-fs'
 
@@ -39,6 +38,8 @@ target 'pricetag' do
   pod 'ReactNativeNavigation', :path => '../node_modules/react-native-navigation'
 
 
+
+  pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
 
   target 'pricetagTests' do
     inherit! :search_paths
