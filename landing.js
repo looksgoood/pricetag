@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 import ImagePicker from 'react-native-image-crop-picker';
+import LinearGradient from 'react-native-linear-gradient';
+
 class Landing extends Component  {
   constructor(props) {
     super(props);
@@ -73,7 +75,7 @@ class Landing extends Component  {
             console.log('image: ', curImage);
             return (
               <Image
-                style={styles.imageItem}
+                style={styles.onReadyImage}
                 source={{uri: 'file://' + curImage}}
                 resizeMode="contain"
                 key={i}
@@ -91,17 +93,22 @@ class Landing extends Component  {
           source={require('./assets/hmong_profile.png')}
           resizeMode="contain"
         />
-        <Text style={styles.contentTitle}>Hello Jenny,</Text>
+        <Text style={styles.contentTitle}>Hello</Text>
+        <Text style={styles.contentTitle}> Thatthiang,</Text>
         <Text style={styles.contentDescription}>
-          Group, customize your photos in your own way.
+          You've got 1 task to proceed
         </Text>
-        <View style={styles.onReadyContainer}>
+        <LinearGradient style={styles.onReadyContainer} colors={['#fcfcfc', '#cccccc']}>
           <TouchableOpacity style={styles.onReadyTitle} onPress={this.onPressOnReady}>
-            <Text style={styles.onReadyTitle}>On Ready ></Text>
+            {
+              this.state.images.length > 0 ?
+                <Text style={styles.onReadyTitle}>On Ready ></Text> :
+                <Text style={styles.onReadyTitle}>Upload Start ></Text>
+            }
+            
           </TouchableOpacity>
-          {console.log(IntentImages)}
           {this.state.images.length > 0 ? IntentImages : null}
-        </View>
+        </LinearGradient>
       </View>
     );
     return (
@@ -163,30 +170,47 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   contentDescription: {
+    marginTop: 10,
     marginLeft: 10,
     fontSize: 18,
     width: 250,
   },
   onReadyContainer: {
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 15,
+    marginRight: 15,
     marginTop: 25,
-    backgroundColor: '#221147',
+    backgroundColor: 'white',
     borderRadius: 30,
     height: 300,
     justifyContent: 'flex-start',
+    shadowColor: "black",
+    elevation: 3,
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 1
+    }
   },
   onReadyTitle: {
-    fontSize: 40,
-    marginTop: 5,
-    marginLeft: 10,
+    fontSize: 30,
+    marginTop: 12,
+    marginLeft: 15,
     fontWeight: 'bold',
-    color: 'white',
+    color: 'black',
   },
   onReadyDescription: {
-    marginLeft: 15,
+    marginLeft: 30,
+    marginTop: 12,
     fontSize: 18,
-    color: 'white',
+    color: 'black',
+  },
+  onReadyImageContainer: {
+    marginLeft: 10,
+    marginRight: 10,
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
   onReadyImage: {
     marginTop: 10,

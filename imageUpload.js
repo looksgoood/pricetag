@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Button } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 
@@ -28,6 +28,10 @@ class ImageUpload extends Component  {
     console.log('onPressImage => ', image);
   }
 
+  onPressApplyAll = () => {
+    console.log('onPressApplyAll');
+  }
+
   render = () => {
     const title = (
       <View style={styles.title}>
@@ -42,9 +46,13 @@ class ImageUpload extends Component  {
 
     const content = (
       <View style={styles.content}>
-        <Text style={styles.contentTitle}>Upload</Text>
+      <Text style={styles.contentTitle}>Customize</Text>
+      <Text style={styles.contentTitle}>Your Image</Text>
         <Text style={styles.contentDescription}>
           {this.props.images.length} photos are selected to upload
+        </Text>
+        <Text style={styles.contentDescription2}>
+          You can attach your own decription, watermark, brand logo, signature and so on.
         </Text>
         <View style={styles.imageContainer}>
           {this.props.images.map((curImage, i) => {
@@ -63,6 +71,14 @@ class ImageUpload extends Component  {
               </TouchableOpacity>
             );
           })}
+        </View>
+        <View style={styles.applyAllButtonContainer}>
+        <TouchableOpacity 
+          style={styles.applyAllButton}
+          onPress = {this.onPressApplyAll}
+        >
+          <Text style={styles.applyAllButtonText}>Apply to All</Text>
+        </TouchableOpacity>
         </View>
       </View>
     );
@@ -117,7 +133,6 @@ const styles = StyleSheet.create({
     flex: 9,
   },
   contentTitle: {
-    marginTop: 10,
     marginLeft: 10,
     fontSize: 30,
     fontWeight: 'bold',
@@ -127,6 +142,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 18,
     width: 250,
+  },
+  contentDescription2: {
+    marginTop: 15,
+    marginLeft: 10,
+    fontSize: 18,
+    width: 280,
   },
   imageContainer: {
     marginLeft: 10,
@@ -140,5 +161,24 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: 120,
     height: 120,
+  },
+  applyAllButtonContainer: {
+    marginTop: 30,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  applyAllButton: {
+    backgroundColor: '#14A1DC',
+    borderRadius: 30,
+    overflow: 'hidden',
+    width: 205,
+    height: 28,
+  },
+  applyAllButtonText: {
+    textAlignVertical: 'center',
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 18,
   },
 });
