@@ -1,32 +1,26 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ImageBackground, Image, Button } from 'react-native';
+import { StyleSheet, View, ImageBackground, Image, Text } from 'react-native';
 import ImageIntent from 'react-native-image-intent';
 import { Navigation } from 'react-native-navigation';
+import { whileStatement } from '@babel/types';
 
 export default class App extends Component {
   state = {
     isLoaded: false,
+    isLogin: false,
     imageUris:[],
   };
 
-  _loadLanding = () => {
-    Navigation.setStackRoot(this.props.componentId,
-    {
+  _loadLogin = () => {
+    Navigation.push(this.props.componentId, {
       component: {
-          name: 'example.Landing',
-          passProps: {
-            images: this.state.imageUris,
-          },
-        },
-        options: {
-          animations: {
-            setStackRoot: {
-              enabled: true,
-            },
-          },
-        },
+        name: 'example.Login',
+        passProps: {
+          images: this.state.imageUris,
+        }
+      },
     });
-  };
+  }
 
   componentDidMount() {
     ImageIntent.getImageIntentUrl().then((url) => {
@@ -56,12 +50,15 @@ export default class App extends Component {
             source={require('./assets/HaeTae_Logo_white.png')}
             resizeMode="contain"
           />
+          <View style={styles.splashLine}/>
+          <Text style={styles.splashText}>SAMSUNG</Text>
+          <Text style={styles.splashText}>OneWeek in Thailand</Text>
         </View>
       </ImageBackground>
     );
     return (
       <View style={styles.container}>
-        {this.state.isLoaded ? this._loadLanding() : splash}
+        {this.state.isLoaded ? this._loadLogin() : splash}
       </View>
     );
   }
@@ -86,12 +83,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 6,
   },
-  splashButtonContainer: {
-    flex: 1,
-  },
   splashLogo: {
     backgroundColor: 'transparent',
-    width: 120,
-    height: 90,
+    width: 190,
+    height: 62,
+  },
+  splashLine: {
+    marginTop: 10,
+    marginBottom: 10,
+    borderBottomColor: 'white',
+    borderBottomWidth: 1,
+    width: 260,
+  },
+  splashText: {
+    marginTop: 3,
+    color: 'white',
+    fontWeight: 'bold',
   },
 });

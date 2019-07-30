@@ -4,12 +4,14 @@
 
 import {Navigation} from 'react-native-navigation';
 import App from './App';
+import Login from './login';
 import Landing from './landing';
 
 import ImageUpload from './imageUpload';
 import {ImageEditor} from './imageEditor';
 
 Navigation.registerComponent('example.FirstScreen', () => App);
+Navigation.registerComponent('example.Login', () => Login);
 Navigation.registerComponent('example.Landing', () => Landing);
 Navigation.registerComponent('example.ImageUpload', () => ImageUpload);
 Navigation.registerComponent('example.ImageEditor', () => ImageEditor);

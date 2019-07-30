@@ -40,7 +40,7 @@ public class MainApplication extends NavigationApplication {
     List<ReactPackage> packages = new PackageList(this).getPackages();
     return packages;
   }
-      @Override
+  @Override
   public List<ReactPackage> createAdditionalReactPackages() {
     return getPackages();
   }
