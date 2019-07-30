@@ -6,6 +6,9 @@ import PropTypes from 'prop-types';
 class ImageUpload extends Component  {
   constructor(props) {
     super(props);
+    this.state = {
+      images: props.images,
+    };
   }
 
   onPressBack = () => {
@@ -14,6 +17,22 @@ class ImageUpload extends Component  {
 
   onPressNext = () => {
     console.log('onPressNext');
+    Navigation.showModal({
+      component: {
+        name: 'example.PrintOrPost',
+        passProps: {
+          images: this.state.images,
+        },
+        options: {
+          screenBackgroundColor: 'transparent',
+          modalPresentationStyle: 'overCurrentContext',
+          topBar: {
+            visible: false,
+            drawBehind: true,
+          },
+        },
+      },
+    });
   }
 
   onPressImage = (image) => {
@@ -73,12 +92,12 @@ class ImageUpload extends Component  {
           })}
         </View>
         <View style={styles.applyAllButtonContainer}>
-        <TouchableOpacity 
-          style={styles.applyAllButton}
-          onPress = {this.onPressApplyAll}
-        >
-          <Text style={styles.applyAllButtonText}>Apply to All</Text>
-        </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.applyAllButton}
+            onPress = {this.onPressApplyAll}
+          >
+            <Text style={styles.applyAllButtonText}>Apply to All</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
