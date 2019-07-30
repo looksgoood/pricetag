@@ -9,12 +9,14 @@ import Landing from './landing';
 
 import ImageUpload from './imageUpload';
 import {ImageEditor} from './imageEditor';
+import PrintOrPost from './printOrPost';
 
 Navigation.registerComponent('example.FirstScreen', () => App);
 Navigation.registerComponent('example.Login', () => Login);
 Navigation.registerComponent('example.Landing', () => Landing);
 Navigation.registerComponent('example.ImageUpload', () => ImageUpload);
 Navigation.registerComponent('example.ImageEditor', () => ImageEditor);
+Navigation.registerComponent('example.PrintOrPost', () => PrintOrPost);
 Navigation.registerComponent('navigation.playground.WelcomeScreen', () => App);
 Navigation.setDefaultOptions({
   topBar: {
