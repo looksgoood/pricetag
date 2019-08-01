@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, ImageBackground } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
-import ImagePicker from 'react-native-image-crop-picker';
 
-class ImageUpload extends Component  {
+class CustomizeImage extends Component  {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,15 +18,35 @@ class ImageUpload extends Component  {
   }
 
   onPressBack = () => {
-    Navigation.popToRoot(this.props.componentId);
+    Navigation.pop(this.props.componentId);
   }
 
   onPressNext = () => {
-    Navigation.push(this.props.componentId, {
+    console.log('onPressNext');
+    Navigation.showModal({
       component: {
-        name: 'example.CustomizeImage',
+        name: 'example.PrintOrPost',
         passProps: {
           images: this.state.images,
+        },
+        options: {
+          screenBackgroundColor: 'transparent',
+          modalPresentationStyle: 'overCurrentContext',
+          topBar: {
+            visible: false,
+            drawBehind: true,
+          },
+        },
+      },
+    });
+  }
+
+  onPressEdit = (image) => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'example.ImageEditor',
+        passProps: {
+          image: image,
         },
       },
     });
@@ -39,24 +58,15 @@ class ImageUpload extends Component  {
     })
   }
 
-  onPressMore = () => {
-    ImagePicker.openPicker({
-      multiple: true,
-      forceJpg: true,
-    }).then(newImages => {
-      this.setState({
-        images: this.state.images.concat(newImages.map(i => {
-          return i.path.substring(7);
-        })),
-      });
-    }).catch(e => alert(e));
+  onPressApplyAll = () => {
+    console.log('onPressApplyAll');
   }
 
   render = () => {
     const title = (
       <View style={styles.title}>
         <TouchableOpacity style={styles.backButton} onPress={this.onPressBack}>
-          <Text style={styles.backButton}>{'<'}</Text>
+          <Text style={styles.backButton}>{'Previous'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.nextButton} onPress={this.onPressNext}>
           <Text style={styles.nextButton}>Next</Text>
@@ -66,23 +76,34 @@ class ImageUpload extends Component  {
 
     const view = (
       <View style={styles.view}>
-        <Image
+        <ImageBackground
           style={styles.viewItem}
           source={{uri: 'file://' + this.state.selectedImage}}
           resizeMode="cover"
-        />
+        >
+          <TouchableOpacity
+            style={styles.editButton}
+            onPress={() => this.onPressEdit(this.state.selectedImage)}
+          >
+            <Image
+              style={styles.editButton}
+              source={require('./assets/edit_button.png')}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </ImageBackground>
       </View>
     )
 
     const content = (
       <View style={styles.content}>
-      <Text style={styles.contentTitle}>Upload Images</Text>
+      <Text style={styles.contentTitle}>Customize</Text>
+      <Text style={styles.contentTitle}>Your Image</Text>
         <Text style={styles.contentDescription}>
-          {this.state.images.length} photos are selected to upload
+          You can attach your own decription, watermark, brand logo, signature and so on.
         </Text>
         <View style={styles.imageContainer}>
-          {this.state.images.map((curImage, i) => {
-            console.log('image: ', curImage);
+          {this.props.images.map((curImage, i) => {
             return (
               <TouchableOpacity
                 style={styles.imageItem}
@@ -97,16 +118,13 @@ class ImageUpload extends Component  {
               </TouchableOpacity>
             );
           })}
-
-          <TouchableOpacity
-            style={styles.moreItem}
-            onPress={this.onPressMore}
+        </View>
+        <View style={styles.applyAllButtonContainer}>
+          <TouchableOpacity 
+            style={styles.applyAllButton}
+            onPress = {this.onPressApplyAll}
           >
-            <Image
-              style={styles.moreButton}
-              source={require('./assets/more_button.png')}
-              resizeMode="contain"
-            />
+            <Text style={styles.applyAllButtonText}>Apply to All</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -128,10 +146,10 @@ const defaultProps = {
   images: ['./assets/photo.jpg'],
 };
 
-ImageUpload.propTypes = propTypes;
-ImageUpload.defaultProps = defaultProps;
+CustomizeImage.propTypes = propTypes;
+CustomizeImage.defaultProps = defaultProps;
 
-export default ImageUpload;
+export default CustomizeImage;
 
 const styles = StyleSheet.create({
   container: {
@@ -142,8 +160,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   backButton: {
+    marginLeft: 15,
     marginRight: 10,
-    width: 50,
     height: '100%',
     fontSize: 20,
     textAlignVertical: 'center',
@@ -164,6 +182,14 @@ const styles = StyleSheet.create({
   viewItem: {
     width: '100%',
     height: '100%',
+    flexDirection: 'row-reverse',
+    alignItems: 'flex-end'
+  },
+  editButton: {
+    marginBottom: 10,
+    marginRight: 10,
+    width: 65,
+    height: 65,
   },
   content: {
   },
@@ -176,7 +202,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 10,
     fontSize: 18,
-    width: 250,
+    width: 280,
   },
   imageContainer: {
     marginLeft: 15,
@@ -194,17 +220,24 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 20,
   },
-  moreItem: {
-    marginTop: 10,
-    marginRight: 10,
-    width: 100,
-    height: 100,
+  applyAllButtonContainer: {
+    marginTop: 30,
+    marginBottom: 30,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  moreButton: {
-    marginTop: 10,
-    width: 65,
-    height: 65,
+  applyAllButton: {
+    backgroundColor: '#14A1DC',
+    borderRadius: 30,
+    overflow: 'hidden',
+    width: 205,
+    height: 28,
+  },
+  applyAllButtonText: {
+    textAlignVertical: 'center',
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 18,
   },
 });

@@ -77,7 +77,7 @@ class Landing extends Component  {
               <Image
                 style={styles.onReadyImage}
                 source={{uri: 'file://' + curImage}}
-                resizeMode="contain"
+                resizeMode="cover"
                 key={i}
               />
             );
@@ -215,9 +215,9 @@ const styles = StyleSheet.create({
   onReadyImage: {
     marginTop: 10,
     marginLeft: 10,
-    width: 100,
-    height: 100,
-    borderRadius: 30,
+    width: 80,
+    height: 80,
+    borderRadius: 20,
     overflow: 'hidden',
   },
 });

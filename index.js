@@ -8,6 +8,7 @@ import Login from './login';
 import Landing from './landing';
 
 import ImageUpload from './imageUpload';
+import CustomizeImage from './customizeImage';
 import ImageEditor from './imageEditor';
 import PrintOrPost from './printOrPost';
 
@@ -15,6 +16,7 @@ Navigation.registerComponent('example.FirstScreen', () => App);
 Navigation.registerComponent('example.Login', () => Login);
 Navigation.registerComponent('example.Landing', () => Landing);
 Navigation.registerComponent('example.ImageUpload', () => ImageUpload);
+Navigation.registerComponent('example.CustomizeImage', () => CustomizeImage);
 Navigation.registerComponent('example.ImageEditor', () => ImageEditor);
 Navigation.registerComponent('example.PrintOrPost', () => PrintOrPost);
 Navigation.registerComponent('navigation.playground.WelcomeScreen', () => App);
