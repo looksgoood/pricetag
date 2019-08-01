@@ -24,6 +24,7 @@ class ImageEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      image: props.image
     };
   }
 
@@ -63,31 +64,10 @@ class ImageEditor extends Component {
     });
   }
 
-  componentDidMount() {
-    let photoPath = RNFS.DocumentDirectoryPath + '/photo.jpg';
-    console.log(photoPath);
-    let binaryFile = resolveAssetSource(photoPath);
-    console.log(binaryFile);
-    RNFetchBlob.config({ fileCache: true })
-      .fetch('GET', binaryFile.uri)
-      .then(resp => {
-        RNFS.moveFile(resp.path(), photoPath)
-          .then(success => {
-            console.log('FILE WRITTEN!');
-          })
-          .catch(err => {
-            console.log(err.message);
-          });
-      })
-      .catch(err => {
-        console.log(err.message);
-      });
-  }
-
   render() {
     return (<View style={styles.container}>
       {
-        this._onPress(this.props.image)
+        this._onPress(this.state.image)
       }
     </View>);
   }

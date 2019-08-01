@@ -8,7 +8,7 @@ import Login from './login';
 import Landing from './landing';
 
 import ImageUpload from './imageUpload';
-import {ImageEditor} from './imageEditor';
+import ImageEditor from './imageEditor';
 import PrintOrPost from './printOrPost';
 
 Navigation.registerComponent('example.FirstScreen', () => App);

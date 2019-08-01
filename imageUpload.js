@@ -44,7 +44,6 @@ class ImageUpload extends Component  {
         },
       },
     });
-    console.log('onPressImage => ', image);
   }
 
   onPressApplyAll = () => {
