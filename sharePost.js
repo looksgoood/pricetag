@@ -34,9 +34,8 @@ class SharePost extends Component  {
     const title = (
       <View style={styles.title}>
         <TouchableOpacity style={styles.backButton} onPress={this.onPressBack}>
-          <Text style={styles.backButton}>        </Text>
+          <Text style={styles.backButton}>Previous</Text>
         </TouchableOpacity>
-        <Text style={styles.nextButton}>    </Text>
       </View>
     );
 
@@ -140,7 +139,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-    image: [],
+    images: [],
 };
 
 SharePost.propTypes = propTypes;
@@ -156,6 +155,7 @@ const styles = StyleSheet.create({
     height: 60,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    backgroundColor: 'white',
   },
   backButton: {
     marginLeft: 15,

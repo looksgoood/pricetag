@@ -55,6 +55,22 @@ class PrintOrPost extends Component  {
       });
     } else {
       console.log("Print out as a brand tag");
+      Navigation.showModal({
+        component: {
+          name: 'example.PrintBrandTag',
+          passProps: {
+            images: this.state.images,
+          },
+          options: {
+            screenBackgroundColor: 'transparent',
+            modalPresentationStyle: 'overCurrentContext',
+            topBar: {
+              visible: false,
+              drawBehind: true,
+            },
+          },
+        },
+      });
     }
   }
 
@@ -67,10 +83,10 @@ class PrintOrPost extends Component  {
     const title = (
       <View style={styles.title}>
         <TouchableOpacity style={styles.backButton} onPress={this.onPressBack}>
-          <Text style={styles.backButton}>{'        '}</Text>
+          <Text style={styles.backButton}>Previous</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.nextButton} onPress={this.onPressNext}>
-          <Text style={styles.nextButton}>{'    '}</Text>
+          <Text style={styles.nextButton}>Next</Text>
         </TouchableOpacity>
       </View>
     );
@@ -168,9 +184,6 @@ class PrintOrPost extends Component  {
                   }}/>
                 </DialogFooter>
               }
-              onHardwareBackPress={() => {
-                this.setState({ dialogVisible: false });
-              }}
             >
               <DialogContent>
                 <Text>
@@ -207,7 +220,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-    image: [],
+    images: [],
 };
 
 PrintOrPost.propTypes = propTypes;
@@ -223,6 +236,7 @@ const styles = StyleSheet.create({
     height: 60,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    backgroundColor: 'white',
   },
   backButton: {
     marginLeft: 15,
