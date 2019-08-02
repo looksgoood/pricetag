@@ -97,44 +97,45 @@ class CustomizeImage extends Component  {
 
     const content = (
       <View style={styles.content}>
-      <Text style={styles.contentTitle}>Customize</Text>
-      <Text style={styles.contentTitle}>Your Image</Text>
-        <Text style={styles.contentDescription}>
-          You can attach your own decription, watermark, brand logo, signature and so on.
-        </Text>
-        <View style={styles.imageContainer}>
-          {this.props.images.map((curImage, i) => {
-            return (
-              <TouchableOpacity
-                style={styles.imageItem}
-                onPress={() => this.onPressImage(curImage)}
-                key={i}
-              >
-                <Image
+        <ScrollView>
+          <Text style={styles.contentTitle}>Customize{'\n'}Your Image</Text>
+          <Text style={styles.contentDescription}>
+            You can attach your own{'\n'}decription, watermark, brand logo,{'\n'}signature and so on.
+          </Text>
+          <View style={styles.imageContainer}>
+            {this.props.images.map((curImage, i) => {
+              return (
+                <TouchableOpacity
                   style={styles.imageItem}
-                  source={{uri: 'file://' + curImage}}
-                  resizeMode="cover"
-                />
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-        <View style={styles.applyAllButtonContainer}>
-          <TouchableOpacity 
-            style={styles.applyAllButton}
-            onPress = {this.onPressApplyAll}
-          >
-            <Text style={styles.applyAllButtonText}>Apply to All</Text>
-          </TouchableOpacity>
-        </View>
+                  onPress={() => this.onPressImage(curImage)}
+                  key={i}
+                >
+                  <Image
+                    style={styles.imageItem}
+                    source={{uri: 'file://' + curImage}}
+                    resizeMode="cover"
+                  />
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+          <View style={styles.applyAllButtonContainer}>
+            <TouchableOpacity 
+              style={styles.applyAllButton}
+              onPress = {this.onPressApplyAll}
+            >
+              <Text style={styles.applyAllButtonText}>Apply to All</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
     );
   return (
-    <ScrollView>
+    <View style={styles.container}>
       {title}
       {view}
       {content}
-    </ScrollView>);
+    </View>);
   }
 }
 
@@ -153,6 +154,7 @@ export default CustomizeImage;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
   },
   title: {
     height: 60,
@@ -177,7 +179,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   view: {
-    height: 300,
+    flex: 1,
   },
   viewItem: {
     width: '100%',
@@ -192,6 +194,7 @@ const styles = StyleSheet.create({
     height: 65,
   },
   content: {
+    flex: 1,
   },
   contentTitle: {
     marginLeft: 10,
@@ -202,7 +205,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 10,
     fontSize: 18,
-    width: 280,
   },
   imageContainer: {
     marginLeft: 15,

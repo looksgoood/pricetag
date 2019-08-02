@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -52,14 +52,14 @@ class Landing extends Component  {
   render = () => {
     const title = (
       <View style={styles.title}>
-        <TouchableOpacity style={styles.logoButton} onPress={this.onPressLogo}>
+        <TouchableOpacity onPress={this.onPressLogo}>
           <Image
             style={styles.logoButton}
             source={require('./assets/HaeTae_Logo_Black.png')}
             resizeMode="contain"
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.moreButton} onPress={this.onPressMore}>
+        <TouchableOpacity onPress={this.onPressMore}>
           <Text style={styles.moreButton}>...</Text>
         </TouchableOpacity>
       </View>
@@ -88,27 +88,39 @@ class Landing extends Component  {
 
     const content = (
       <View style={styles.content}>
-        <Image
-          style={styles.profileImage}
-          source={require('./assets/hmong_profile.png')}
-          resizeMode="contain"
-        />
-        <Text style={styles.contentTitle}>Hello</Text>
-        <Text style={styles.contentTitle}> Thatthiang,</Text>
-        <Text style={styles.contentDescription}>
-          You've got 1 task to proceed
-        </Text>
-        <LinearGradient style={styles.onReadyContainer} colors={['#fcfcfc', '#cccccc']}>
-          <TouchableOpacity style={styles.onReadyTitle} onPress={this.onPressOnReady}>
-            {
-              this.state.images.length > 0 ?
-                <Text style={styles.onReadyTitle}>On Ready ></Text> :
-                <Text style={styles.onReadyTitle}>Upload Start ></Text>
-            }
-            
-          </TouchableOpacity>
-          {this.state.images.length > 0 ? IntentImages : null}
-        </LinearGradient>
+        <ScrollView>
+          <Image
+            style={styles.profileImage}
+            source={require('./assets/hmong_profile.png')}
+            resizeMode="contain"
+          />
+          <Text style={styles.contentTitle}>Hello</Text>
+          <Text style={styles.contentTitle}> Thatthiang,</Text>
+          <Text style={styles.contentDescription}>
+            You've got 1 task to proceed
+          </Text>
+          <LinearGradient style={styles.onReadyContainer} colors={['#fcfcfc', '#cccccc']}>
+            <TouchableOpacity style={styles.onReadyTitle} onPress={this.onPressOnReady}>
+              {
+                this.state.images.length > 0 ?
+                  <Text style={styles.onReadyTitle}>On Ready ></Text> :
+                  <Text style={styles.onReadyTitle}>Upload Start ></Text>
+              }
+              
+            </TouchableOpacity>
+            {this.state.images.length > 0 ? IntentImages : null}
+          </LinearGradient>
+          <View style={styles.copyright}>
+            <Text style={styles.copyrightTitle}>
+              Copyright © 2019 by Samsung OneWeek
+            </Text>
+            <Text style={styles.copyrightDesc}>
+              All rights reserved. This book or any portion thereof{'\n'}
+              may not be reproduced or used in any manner whatsoever{'\n'}
+              without the express written permission of the publisher
+            </Text>
+          </View>
+        </ScrollView>
       </View>
     );
     return (
@@ -137,11 +149,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    flex: 1,
+    height: 60,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   logoButton: {
+    marginLeft: 10,
     width: 100,
     height: '100%',
   },
@@ -152,9 +165,12 @@ const styles = StyleSheet.create({
     fontSize: 36,
     textAlignVertical: 'center',
     textAlign: 'center',
+    transform: [{
+      rotate: '90deg',
+    }],
   },
   content: {
-    flex: 9,
+    flex: 1,
   },
   profileImage: {
     marginTop: 20,
@@ -176,12 +192,13 @@ const styles = StyleSheet.create({
     width: 250,
   },
   onReadyContainer: {
+    paddingBottom: 15,
     marginLeft: 15,
     marginRight: 15,
     marginTop: 25,
     backgroundColor: 'white',
     borderRadius: 30,
-    height: 300,
+    minHeight: 300,
     justifyContent: 'flex-start',
     shadowColor: "black",
     elevation: 3,
@@ -219,5 +236,19 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 20,
     overflow: 'hidden',
+  },
+  copyright: {
+    marginTop: 30,
+    marginBottom: 15,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  copyrightTitle: {
+    fontSize: 12,
+    textAlign: 'center',
+  },
+  copyrightDesc: {
+    fontSize: 8,
+    textAlign: 'center',
   },
 });

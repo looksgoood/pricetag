@@ -11,6 +11,7 @@ import ImageUpload from './imageUpload';
 import CustomizeImage from './customizeImage';
 import ImageEditor from './imageEditor';
 import PrintOrPost from './printOrPost';
+import SharePost from './sharePost';
 
 Navigation.registerComponent('example.FirstScreen', () => App);
 Navigation.registerComponent('example.Login', () => Login);
@@ -19,6 +20,7 @@ Navigation.registerComponent('example.ImageUpload', () => ImageUpload);
 Navigation.registerComponent('example.CustomizeImage', () => CustomizeImage);
 Navigation.registerComponent('example.ImageEditor', () => ImageEditor);
 Navigation.registerComponent('example.PrintOrPost', () => PrintOrPost);
+Navigation.registerComponent('example.SharePost', () => SharePost);
 Navigation.registerComponent('navigation.playground.WelcomeScreen', () => App);
 Navigation.setDefaultOptions({
   topBar: {

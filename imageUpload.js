@@ -76,47 +76,49 @@ class ImageUpload extends Component  {
 
     const content = (
       <View style={styles.content}>
-      <Text style={styles.contentTitle}>Upload Images</Text>
-        <Text style={styles.contentDescription}>
-          {this.state.images.length} photos are selected to upload
-        </Text>
-        <View style={styles.imageContainer}>
-          {this.state.images.map((curImage, i) => {
-            console.log('image: ', curImage);
-            return (
-              <TouchableOpacity
-                style={styles.imageItem}
-                onPress={() => this.onPressImage(curImage)}
-                key={i}
-              >
-                <Image
+        <ScrollView>
+          <Text style={styles.contentTitle}>Upload Images</Text>
+          <Text style={styles.contentDescription}>
+            {this.state.images.length} photos are selected to upload
+          </Text>
+          <View style={styles.imageContainer}>
+            {this.state.images.map((curImage, i) => {
+              console.log('image: ', curImage);
+              return (
+                <TouchableOpacity
                   style={styles.imageItem}
-                  source={{uri: 'file://' + curImage}}
-                  resizeMode="cover"
-                />
-              </TouchableOpacity>
-            );
-          })}
+                  onPress={() => this.onPressImage(curImage)}
+                  key={i}
+                >
+                  <Image
+                    style={styles.imageItem}
+                    source={{uri: 'file://' + curImage}}
+                    resizeMode="cover"
+                  />
+                </TouchableOpacity>
+              );
+            })}
 
-          <TouchableOpacity
-            style={styles.moreItem}
-            onPress={this.onPressMore}
-          >
-            <Image
-              style={styles.moreButton}
-              source={require('./assets/more_button.png')}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={styles.moreItem}
+              onPress={this.onPressMore}
+            >
+              <Image
+                style={styles.moreButton}
+                source={require('./assets/more_button.png')}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </View>
     );
   return (
-    <ScrollView>
+    <View style={styles.container}>
       {title}
       {view}
       {content}
-    </ScrollView>);
+    </View>);
   }
 }
 
@@ -135,6 +137,7 @@ export default ImageUpload;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
   },
   title: {
     height: 60,
@@ -159,13 +162,14 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   view: {
-    height: 300,
+    flex: 1,
   },
   viewItem: {
     width: '100%',
     height: '100%',
   },
   content: {
+    flex: 1,
   },
   contentTitle: {
     marginLeft: 10,
