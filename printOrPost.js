@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import Dialog, { DialogTitle, DialogFooter, DialogButton, DialogContent } from 'react-native-popup-dialog';
 import PropTypes from 'prop-types';
 
 class PrintOrPost extends Component  {
@@ -10,6 +11,7 @@ class PrintOrPost extends Component  {
 
   state = {
     postingChecked: false,
+    dialogVisible: false,
   }
 
   onPressPosting = () => {
@@ -58,6 +60,7 @@ class PrintOrPost extends Component  {
 
   onPressBrandTagInfo = () => {
     console.log("onPressBrandTagInfo");
+    this.setState({ dialogVisible: true });
   }
 
   render = () => {
@@ -151,6 +154,37 @@ class PrintOrPost extends Component  {
               What is Printing Out as{'\n'}
               a Brand Tag?
             </Text>
+            <Dialog
+              visible={this.state.dialogVisible}
+              onTouchOutside={() => {
+                this.setState({ dialogVisible: false });
+              }}
+              width={0.9}
+              dialogTitle={<DialogTitle title="What is Printing Out as a Brand Tag?" />}
+              footer={
+                <DialogFooter>
+                  <DialogButton text="OK" onPress={() => {
+                    this.setState({ dialogVisible: false });
+                  }}/>
+                </DialogFooter>
+              }
+              onHardwareBackPress={() => {
+                this.setState({ dialogVisible: false });
+              }}
+            >
+              <DialogContent>
+                <Text>
+                  blahblahblahblahblahblahblahblahblah{'\n'}
+                  blahblahblahblahblahblahblahblahblah{'\n'}
+                  blahblahblahblahblahblahblahblahblah{'\n'}
+                  blahblahblahblahblahblahblahblahblah{'\n'}
+                  blahblahblahblahblahblahblahblahblah{'\n'}
+                  blahblahblahblahblahblahblahblahblah{'\n'}
+                  blahblahblahblahblahblahblahblahblah{'\n'}
+                  blahblahblahblahblahblahblahblahblah{'\n'}
+                </Text>
+              </DialogContent>
+            </Dialog>
           </View>
         </ScrollView>
       </View>
@@ -277,4 +311,8 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
     textAlign: 'center',
   },
+  dialog: {
+    marginLeft: 20,
+    marginRight: 20,
+  }
 });
