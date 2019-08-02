@@ -16,6 +16,7 @@
     "react-native-linear-gradient": "^2.5.6",
     "react-native-navigation": "3.0.0-alpha.6",
     "react-native-photo-editor": "0.0.7",
+    "react-native-popup-dialog": "^0.18.3",
     "rn-fetch-blob": "^0.10.16"
   },
   "devDependencies": {

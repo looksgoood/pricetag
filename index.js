@@ -8,15 +8,21 @@ import Login from './login';
 import Landing from './landing';
 
 import ImageUpload from './imageUpload';
-import {ImageEditor} from './imageEditor';
+import CustomizeImage from './customizeImage';
+import ImageEditor from './imageEditor';
 import PrintOrPost from './printOrPost';
+import SharePost from './sharePost';
+import PrintBrandTag from './printBrandTag';
 
 Navigation.registerComponent('example.FirstScreen', () => App);
 Navigation.registerComponent('example.Login', () => Login);
 Navigation.registerComponent('example.Landing', () => Landing);
 Navigation.registerComponent('example.ImageUpload', () => ImageUpload);
+Navigation.registerComponent('example.CustomizeImage', () => CustomizeImage);
 Navigation.registerComponent('example.ImageEditor', () => ImageEditor);
 Navigation.registerComponent('example.PrintOrPost', () => PrintOrPost);
+Navigation.registerComponent('example.SharePost', () => SharePost);
+Navigation.registerComponent('example.PrintBrandTag', () => PrintBrandTag);
 Navigation.registerComponent('navigation.playground.WelcomeScreen', () => App);
 Navigation.setDefaultOptions({
   topBar: {
