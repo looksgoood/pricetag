@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { StyleSheet, View, ImageBackground, Image, Text } from 'react-native';
 import ImageIntent from 'react-native-image-intent';
 import { Navigation } from 'react-native-navigation';
-import { whileStatement } from '@babel/types';
 
 export default class App extends Component {
   state = {
@@ -17,7 +16,7 @@ export default class App extends Component {
         name: 'example.Login',
         passProps: {
           images: this.state.imageUris,
-        }
+        },
       },
     });
   }

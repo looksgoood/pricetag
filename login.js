@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import { LoginButton, AccessToken, GraphRequest } from 'react-native-fbsdk';
+
 import PropTypes from 'prop-types';
 
 class Login extends Component  {
@@ -18,6 +20,7 @@ class Login extends Component  {
           name: 'example.Landing',
           passProps: {
             images: this.state.images,
+            token: this.state.token,
           },
         },
         options: {
@@ -31,17 +34,17 @@ class Login extends Component  {
   };
 
   onPressFacebook = () => {
-    console.log("onPressFacebook")
+    console.log('onPressFacebook');
     this._loadLanding();
   }
 
   onPressGoogle = () => {
-    console.log("onPressGoogle")
+    console.log('onPressGoogle');
     this._loadLanding();
   }
 
   onPressInstagram = () => {
-    console.log("onPressInstagram")
+    console.log('onPressInstagram');
     this._loadLanding();
   }
 
@@ -75,16 +78,28 @@ class Login extends Component  {
               <View style={styles.loginLine}/>
             </View>
             <View style={styles.loginButtonImageContainer}>
-              <TouchableOpacity
-                style={styles.loginButtonImage}
-                onPress={this.onPressFacebook}
-              >
-                <Image
-                  style={styles.loginButtonImage}
-                  source={require('./assets/login_fb_button.png')}
-                  resizeMode="contain"
-                />
-              </TouchableOpacity>
+              <LoginButton
+                onLoginFinished={
+                  (error, result) => {
+                    console.log(JSON.stringify(error || result, null, 2));
+                    if (error) {
+                      console.log('login has error: ' + result.error);
+                    } else if (result.isCancelled) {
+                      console.log('login is cancelled.');
+                    } else {
+                      AccessToken.getCurrentAccessToken().then(
+                        (data) => {
+                          console.log(data.name);
+                          this.setState(
+                          {
+                            token:data.accessToken.toString(),
+                          });
+                        }
+                      );
+                    }
+                  }
+                }
+                onLogoutFinished={() => console.log('logout.')}/>
               <TouchableOpacity
                 style={styles.loginButtonImage}
                 onPress={this.onPressGoogle}
@@ -153,7 +168,7 @@ const styles = StyleSheet.create({
   loginTextDescription: {
     marginTop: 30,
     fontSize: 18,
-    lineHeight: 18*1.5,
+    lineHeight: 18 * 1.5,
     color: 'white',
     width: 330,
   },
@@ -187,5 +202,5 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     width: 200,
     height: 35,
-  }
+  },
 });
