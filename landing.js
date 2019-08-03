@@ -34,6 +34,10 @@ class Landing extends Component  {
     console.log('onPressMore pressed');
   }
 
+  onPressProfile = () => {
+    console.log('onPressProfile pressed');
+  }
+
   onPressOnReady = () => {
     if (this.state.images.length > 0) {
       Navigation.push(this.props.componentId, {
@@ -65,11 +69,43 @@ class Landing extends Component  {
       </View>
     );
 
-    const IntentImages = (
-      <View>
+    const addImages = (
+      <View style={styles.cardContainer}>
+        <Text style={styles.onReadyTitle}>
+          Make your{'\n'}
+          Brand Identity{'\n'}
+          to your product
+        </Text>
+        <Text style={styles.onReadyDescription}>
+          A Simple Process to design your own{'\n'}
+          Branding to your product
+        </Text>
+        <View style={styles.moreContainer}>
+          <TouchableOpacity
+            onPress={this.onPressOnReady}
+          >
+            <Image
+              style={styles.moreButton}
+              source={require('./assets/more_button.png')}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+
+    const onReadyImages = (
+      <View style={styles.cardContainer}>
+        <Text style={styles.onReadyTitle}>On Ready</Text>
         <Text style={styles.onReadyDescription}>
           {this.state.images.length} photos are ready to upload
         </Text>
+        <TouchableOpacity 
+          style={styles.startButton}
+          onPress = {this.onPressOnReady}
+        >
+          <Text style={styles.startButtonText}>Start</Text>
+        </TouchableOpacity>
         <View style={styles.onReadyImageContainer}>
           {this.state.images.map((curImage, i) => {
             console.log('image: ', curImage);
@@ -89,27 +125,20 @@ class Landing extends Component  {
     const content = (
       <View style={styles.content}>
         <ScrollView>
-          <Image
-            style={styles.profileImage}
-            source={require('./assets/hmong_profile.png')}
-            resizeMode="contain"
-          />
+          <TouchableOpacity onPress={this.onPressProfile}>
+            <Image
+              style={styles.profileImage}
+              source={require('./assets/hmong_profile.png')}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
           <Text style={styles.contentTitle}>Hello</Text>
           <Text style={styles.contentTitle}> Thatthiang,</Text>
           <Text style={styles.contentDescription}>
             You've got 1 task to proceed
           </Text>
-          <LinearGradient style={styles.onReadyContainer} colors={['#fcfcfc', '#cccccc']}>
-            <TouchableOpacity style={styles.onReadyTitle} onPress={this.onPressOnReady}>
-              {
-                this.state.images.length > 0 ?
-                  <Text style={styles.onReadyTitle}>On Ready ></Text> :
-                  <Text style={styles.onReadyTitle}>Upload Start ></Text>
-              }
-              
-            </TouchableOpacity>
-            {this.state.images.length > 0 ? IntentImages : null}
-          </LinearGradient>
+          {/* <View style={styles.empty}/> */}
+          {this.state.images.length > 0 ? onReadyImages : addImages}
           <View style={styles.copyright}>
             <Text style={styles.copyrightTitle}>
               Copyright © 2019 by Samsung OneWeek
@@ -147,6 +176,7 @@ export default Landing;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f2f7fa'
   },
   title: {
     height: 60,
@@ -191,39 +221,32 @@ const styles = StyleSheet.create({
     fontSize: 18,
     width: 250,
   },
-  onReadyContainer: {
+  empty: {
+    height: 100,
+  },
+  cardContainer: {
+    paddingTop: 15,
     paddingBottom: 15,
-    marginLeft: 15,
-    marginRight: 15,
+    paddingLeft: 30,
+    marginLeft: 30,
+    marginRight: 30,
     marginTop: 25,
-    backgroundColor: 'white',
-    borderRadius: 30,
-    minHeight: 300,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    borderRadius: 40,
+    minHeight: 240,
     justifyContent: 'flex-start',
-    shadowColor: "black",
-    elevation: 3,
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    shadowOffset: {
-      height: 1,
-      width: 1
-    }
   },
   onReadyTitle: {
-    fontSize: 30,
-    marginTop: 12,
-    marginLeft: 15,
+    fontSize: 24,
     fontWeight: 'bold',
     color: 'black',
   },
   onReadyDescription: {
-    marginLeft: 30,
     marginTop: 12,
-    fontSize: 18,
+    fontSize: 15,
     color: 'black',
   },
   onReadyImageContainer: {
-    marginLeft: 10,
     marginRight: 10,
     flexWrap: 'wrap',
     flexDirection: 'row',
@@ -231,11 +254,38 @@ const styles = StyleSheet.create({
   },
   onReadyImage: {
     marginTop: 10,
-    marginLeft: 10,
+    marginBottom: 15,
+    marginRight: 15,
     width: 80,
     height: 80,
-    borderRadius: 20,
+    borderRadius: 10,
     overflow: 'hidden',
+  },
+  startButton: {
+    marginTop: 15,
+    marginBottom: 15,
+    backgroundColor: 'black',
+    borderRadius: 30,
+    overflow: 'hidden',
+    width: 100,
+    height: 28,
+  },
+  startButtonText: {
+    textAlignVertical: 'center',
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 15,
+  },
+  moreContainer: {
+    marginTop: 10,
+    marginRight: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  moreButton: {
+    marginTop: 10,
+    width: 65,
+    height: 65,
   },
   copyright: {
     marginTop: 30,
@@ -244,11 +294,12 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   copyrightTitle: {
-    fontSize: 12,
+    fontSize: 15,
+    fontWeight: 'bold',
     textAlign: 'center',
   },
   copyrightDesc: {
-    fontSize: 8,
+    fontSize: 10,
     textAlign: 'center',
   },
 });
