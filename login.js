@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { LoginButton, AccessToken, GraphRequest } from 'react-native-fbsdk';
+import { LoginButton, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
+import {AsyncStorage} from 'react-native';
 
 import PropTypes from 'prop-types';
 
@@ -13,6 +14,33 @@ class Login extends Component  {
     };
   }
 
+  FBGraphRequest = async (fields, callback) => {
+    console.log('test')
+    const accessData = await AccessToken.getCurrentAccessToken();
+    // Create a graph request asking for user information
+    const infoRequest = new GraphRequest('/me', {
+      accessToken: accessData.accessToken,
+      parameters: {
+        fields: {
+          string: fields
+        }
+      }
+    }, callback.bind(this));
+    // Execute the graph request created above
+    new GraphRequestManager().addRequest(infoRequest).start();
+  };
+  _FBLoginCallback = async () => {
+      if (error) {
+        
+      } else {
+        try {
+          //await AsyncStorage.setItem('@haetae:profile', result);
+        }
+        catch (error) {
+          // Error saving data
+        }
+      }
+    } ;
   _loadLanding = () => {
     Navigation.setStackRoot(this.props.componentId,
     {
@@ -81,21 +109,12 @@ class Login extends Component  {
               <LoginButton
                 onLoginFinished={
                   (error, result) => {
-                    console.log(JSON.stringify(error || result, null, 2));
                     if (error) {
                       console.log('login has error: ' + result.error);
                     } else if (result.isCancelled) {
                       console.log('login is cancelled.');
                     } else {
-                      AccessToken.getCurrentAccessToken().then(
-                        (data) => {
-                          console.log(data.name);
-                          this.setState(
-                          {
-                            token:data.accessToken.toString(),
-                          });
-                        }
-                      );
+                      this.FBGraphRequest('id, email, name, picture.type(large)').then(this._FBLoginCallback);
                     }
                   }
                 }
@@ -128,13 +147,10 @@ class Login extends Component  {
   }
 }
 
-const propTypes = {
-};
 
 const defaultProps = {
 };
 
-Login.propTypes = propTypes;
 Login.defaultProps = defaultProps;
 
 export default Login;
