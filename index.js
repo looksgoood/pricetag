@@ -6,6 +6,7 @@ import {Navigation} from 'react-native-navigation';
 import App from './App';
 import Login from './login';
 import Landing from './landing';
+import UserProfile from './userProfile';
 
 import ImageUpload from './imageUpload';
 import CustomizeImage from './customizeImage';
@@ -17,6 +18,7 @@ import PrintBrandTag from './printBrandTag';
 Navigation.registerComponent('example.FirstScreen', () => App);
 Navigation.registerComponent('example.Login', () => Login);
 Navigation.registerComponent('example.Landing', () => Landing);
+Navigation.registerComponent('example.UserProfile', () => UserProfile);
 Navigation.registerComponent('example.ImageUpload', () => ImageUpload);
 Navigation.registerComponent('example.CustomizeImage', () => CustomizeImage);
 Navigation.registerComponent('example.ImageEditor', () => ImageEditor);
