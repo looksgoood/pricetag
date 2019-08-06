@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, ImageBackground, Dimensions } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
+
+let screanItemSize = (Dimensions.get('window').width - 50) / 3;
 
 class CustomizeImage extends Component  {
   constructor(props) {
@@ -197,19 +199,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentTitle: {
-    marginLeft: 10,
+    marginLeft: 15,
     fontSize: 30,
     fontWeight: 'bold',
   },
   contentDescription: {
     marginTop: 15,
-    marginLeft: 10,
+    marginLeft: 15,
     fontSize: 18,
   },
   imageContainer: {
-    marginLeft: 15,
-    marginRight: 10,
-    marginTop: 30,
+    paddingLeft: 15,
+    marginTop: 10,
     marginBottom: 30,
     flexWrap: 'wrap',
     flexDirection: 'row',
@@ -218,8 +219,8 @@ const styles = StyleSheet.create({
   imageItem: {
     marginTop: 10,
     marginRight: 10,
-    width: 100,
-    height: 100,
+    width: screanItemSize,
+    height: screanItemSize,
     borderRadius: 20,
   },
   applyAllButtonContainer: {

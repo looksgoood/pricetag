@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Dimensions, ImageBackground } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 import ImagePicker from 'react-native-image-crop-picker';
-import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-community/async-storage';
+
+let screanItemSize = (Dimensions.get('window').width - 150) / 3;
 
 class Landing extends Component  {
   constructor(props) {
@@ -37,6 +38,11 @@ class Landing extends Component  {
 
   onPressProfile = () => {
     console.log('onPressProfile pressed');
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'example.UserProfile',
+      },
+    });
   }
 
   onPressOnReady = () => {
@@ -97,7 +103,7 @@ class Landing extends Component  {
             onPress={this.onPressOnReady}
           >
             <Image
-              style={styles.moreButton}
+              style={styles.plusButton}
               source={require('./assets/more_button.png')}
               resizeMode="contain"
             />
@@ -146,10 +152,7 @@ class Landing extends Component  {
           </TouchableOpacity>
           <Text style={styles.contentTitle}>Hello</Text>
           <Text style={styles.contentTitle}> Thatthiang,</Text>
-          <Text style={styles.contentDescription}>
-            You've got 1 task to proceed
-          </Text>
-          {/* <View style={styles.empty}/> */}
+          <View style={styles.empty}/>
           {this.state.images.length > 0 ? onReadyImages : addImages}
           <View style={styles.copyright}>
             <Text style={styles.copyrightTitle}>
@@ -167,8 +170,13 @@ class Landing extends Component  {
     
     return (
     <View style={styles.container}>
-      {title}
-      {content}
+      <ImageBackground
+        style={styles.background}
+        resizeMode="cover"
+        source={require('./assets/Haetae_Landing_BG.png')}>
+        {title}
+        {content}
+      </ImageBackground>
     </View>);
   }
 }
@@ -189,7 +197,11 @@ export default Landing;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f2f7fa'
+  },
+  background: {
+    width: '100%',
+    height: '100%',
+    flex: 1,
   },
   title: {
     height: 60,
@@ -218,8 +230,8 @@ const styles = StyleSheet.create({
   profileImage: {
     marginTop: 20,
     marginLeft: 8,
-    height: 80,
-    width: 80,
+    height: 67,
+    width: 67,
     borderRadius: 40,
     overflow: 'hidden',
   },
@@ -260,17 +272,15 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   onReadyImageContainer: {
-    marginRight: 10,
     flexWrap: 'wrap',
     flexDirection: 'row',
     justifyContent: 'flex-start',
   },
   onReadyImage: {
     marginTop: 10,
-    marginBottom: 15,
     marginRight: 15,
-    width: 80,
-    height: 80,
+    width: screanItemSize,
+    height: screanItemSize,
     borderRadius: 10,
     overflow: 'hidden',
   },
@@ -295,7 +305,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  moreButton: {
+  plusButton: {
     marginTop: 10,
     width: 65,
     height: 65,
