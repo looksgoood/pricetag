@@ -4,6 +4,7 @@ import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 import ImagePicker from 'react-native-image-crop-picker';
 import LinearGradient from 'react-native-linear-gradient';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class Landing extends Component  {
   constructor(props) {
@@ -52,8 +53,19 @@ class Landing extends Component  {
       this.chooseFile();
     }
   }
-
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@haetae:profile');
+      if (value !== null) {
+        // We have data!!
+        console.log(value);
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
   render = () => {
+    this._retrieveData();
     const title = (
       <View style={styles.title}>
         <TouchableOpacity onPress={this.onPressLogo}>
@@ -68,7 +80,7 @@ class Landing extends Component  {
         </TouchableOpacity>
       </View>
     );
-
+      
     const addImages = (
       <View style={styles.cardContainer}>
         <Text style={styles.onReadyTitle}>
@@ -152,6 +164,7 @@ class Landing extends Component  {
         </ScrollView>
       </View>
     );
+    
     return (
     <View style={styles.container}>
       {title}

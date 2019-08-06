@@ -23,7 +23,7 @@ Navigation.registerComponent('example.ImageEditor', () => ImageEditor);
 Navigation.registerComponent('example.PrintOrPost', () => PrintOrPost);
 Navigation.registerComponent('example.SharePost', () => SharePost);
 Navigation.registerComponent('example.PrintBrandTag', () => PrintBrandTag);
-Navigation.registerComponent('navigation.playground.WelcomeScreen', () => App);
+
 Navigation.setDefaultOptions({
   topBar: {
     visible: false,

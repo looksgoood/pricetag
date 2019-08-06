@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
-import {AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import PropTypes from 'prop-types';
 
@@ -29,12 +29,14 @@ class Login extends Component  {
     // Execute the graph request created above
     new GraphRequestManager().addRequest(infoRequest).start();
   };
-  _FBLoginCallback = async () => {
+  _FBLoginCallback = async (err, ret) => {
+    console.log(ret)
       if (error) {
         
       } else {
         try {
-          //await AsyncStorage.setItem('@haetae:profile', result);
+          console.log(ret);
+          await AsyncStorage.setItem('@haetae:profile', ret);
         }
         catch (error) {
           // Error saving data
@@ -65,9 +67,17 @@ class Login extends Component  {
     console.log('onPressFacebook');
     this._loadLanding();
   }
-
+  _storeData = async () => {
+    try {
+      await AsyncStorage.setItem('@haetae:profile', 'test');
+    } catch (error) {
+      // Error saving data
+    }
+  };
+  
   onPressGoogle = () => {
     console.log('onPressGoogle');
+    this._storeData();
     this._loadLanding();
   }
 
