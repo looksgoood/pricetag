@@ -12,8 +12,16 @@ class Landing extends Component  {
     super(props);
     this.state = {
       images: props.images,
+      profileImage: '',
+      name: '',
     };
   }
+
+  state = {
+    profileImage: '',
+    name: '',
+  }
+
   chooseFile = () => {
     // TODO: multi file select logic
     ImagePicker.openPicker({
@@ -61,7 +69,7 @@ class Landing extends Component  {
   }
   _retrieveData = async () => {
     try {
-      const value = await AsyncStorage.getItem('@haetae:profile');
+      const value = await AsyncStorage.getItem('@haetae:userInfo');
       if (value !== null) {
         // We have data!!
         console.log(value);
@@ -70,8 +78,34 @@ class Landing extends Component  {
       // Error retrieving data
     }
   };
+
+  checkUserInfo = async () => {
+    console.log("checkUserInfo");
+    const value = await AsyncStorage.getItem('@haetae:userInfo');
+    if (value !== null) {
+      console.log("userInfo data exist");
+      let stateDB = JSON.parse(value);
+      console.log('storeDB: ' + stateDB);
+      this.setState({
+        profileImage: stateDB.profileImage,
+        name: stateDB.firstName,
+      });
+    }
+    else {
+      console.log("user info data not exist");
+      this.setState({
+        profileImage: '',
+        name: 'Anonymous',
+      });
+      this.onPressProfile();
+    }
+  }
+
+  componentDidMount() {
+    this.checkUserInfo();
+  }
+
   render = () => {
-    this._retrieveData();
     const title = (
       <View style={styles.title}>
         <TouchableOpacity onPress={this.onPressLogo}>
@@ -143,15 +177,28 @@ class Landing extends Component  {
     const content = (
       <View style={styles.content}>
         <ScrollView>
-          <TouchableOpacity onPress={this.onPressProfile}>
-            <Image
+          <View style={styles.profileImageContainer}>
+            <TouchableOpacity 
               style={styles.profileImage}
-              source={require('./assets/hmong_profile.png')}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
+              onPress={this.onPressProfile}>
+              {this.state.profileImage.length > 0 ?
+                <Image
+                  style={styles.profileImage}
+                  source={{uri: this.state.profileImage.indexOf("://") == -1 ?
+                            'file://' + this.state.profileImage :
+                            this.state.profileImage}}
+                  resizeMode="cover"
+                /> :
+                <Image
+                  style={styles.profileImage}
+                  source={require('./assets/dummy_face.png')}
+                  resizeMode="cover"
+                />
+              }
+            </TouchableOpacity>
+          </View>
           <Text style={styles.contentTitle}>Hello</Text>
-          <Text style={styles.contentTitle}> Thatthiang,</Text>
+          <Text style={styles.contentTitle}>{this.state.name}</Text>
           <View style={styles.empty}/>
           {this.state.images.length > 0 ? onReadyImages : addImages}
           <View style={styles.copyright}>
@@ -173,7 +220,7 @@ class Landing extends Component  {
       <ImageBackground
         style={styles.background}
         resizeMode="cover"
-        source={require('./assets/Haetae_Landing_BG.png')}>
+        source={require('./assets/Haetae_Landing_BG.jpg')}>
         {title}
         {content}
       </ImageBackground>
@@ -227,13 +274,16 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
-  profileImage: {
+  profileImageContainer: {
     marginTop: 20,
-    marginLeft: 8,
+    paddingLeft: 8,
+  },
+  profileImage: {
     height: 67,
     width: 67,
     borderRadius: 40,
     overflow: 'hidden',
+    backgroundColor: 'white',
   },
   contentTitle: {
     marginLeft: 10,
@@ -256,7 +306,7 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
     marginTop: 25,
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: 'rgba(255, 255, 255, 0.7)',
     borderRadius: 40,
     minHeight: 240,
     justifyContent: 'flex-start',

@@ -179,6 +179,16 @@ class UserProfile extends Component  {
       });
     } else {
       console.log("user info data not exist");
+      const value = await AsyncStorage.getItem('@haetae:profile');
+      if (value !== null) {
+        console.log("profile data exist");      
+        let profileDB = JSON.parse(value);
+        this.setState({
+          profileImage: profileDB.profileUri,
+          firstName: profileDB.name,
+          email: profileDB.email,
+        });
+      }
     }
   }
 
@@ -219,7 +229,7 @@ class UserProfile extends Component  {
                 /> :
                 <Image
                   style={styles.profileImage}
-                  source={require('./assets/hmong_profile.png')}
+                  source={require('./assets/dummy_face.png')}
                   resizeMode="cover"
                 />
               }
@@ -390,6 +400,7 @@ const styles = StyleSheet.create({
     width: 67,
     borderRadius: 40,
     overflow: 'hidden',
+    backgroundColor: 'white',
   },
   editButtonContainer: {
     marginTop: 15,

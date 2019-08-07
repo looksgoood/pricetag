@@ -56,14 +56,14 @@ export default class App extends Component {
   checkImageIntent = (loginFlag) => {
     ImageIntent.getImageIntentUrl().then((url) => {
       this.setState({
-        isLoaded: loginFlag,
+        isLogin: loginFlag,
         isLoaded: true,
         imageUris: url,
       });
     }).catch(e => {
       setTimeout(() => {
         this.setState({
-          isLoaded: loginFlag,
+          isLogin: loginFlag,
           isLoaded: true,
         });
       }, 1000);
@@ -79,17 +79,7 @@ export default class App extends Component {
       <ImageBackground
         style={styles.splashBackground}
         resizeMode="cover"
-        source={require('./assets/haetae_Splash_BG.png')}>
-        <View style={styles.splashImageContainer}>
-          <Image
-            style={styles.splashLogo}
-            source={require('./assets/HaeTae_Logo_white.png')}
-            resizeMode="contain"
-          />
-          <View style={styles.splashLine}/>
-          <Text style={styles.splashText}>SAMSUNG</Text>
-          <Text style={styles.splashText}>OneWeek in Thailand</Text>
-        </View>
+        source={require('./assets/haetae_Splash_BG.jpg')}>
       </ImageBackground>
     );
     return (
