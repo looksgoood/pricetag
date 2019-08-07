@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">pricetag</string>
     <string name="facebook_app_id">339228810363785</string>
-
+    <string name="line_channel_id" translatable="false">1603115733</string>
 </resources>

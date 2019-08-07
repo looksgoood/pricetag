@@ -131,6 +131,7 @@ android {
         applicationId "com.pricetag"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        vectorDrawables.useSupportLibrary = true
         missingDimensionStrategy "RNN.reactNativeVersion", "reactNative60"
         versionCode 1
         versionName "1.0"
@@ -192,6 +193,9 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-line-sdk')
+    implementation project(':react-native-fbsdk')
+    implementation project(':react-native-linear-gradient')
     implementation project(':@react-native-community_async-storage')
     implementation project(':react-native-image-crop-picker')
     implementation project(':react-native-image-intent')

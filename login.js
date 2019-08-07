@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert
 import { Navigation } from 'react-native-navigation';
 import { LoginButton, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 import AsyncStorage from '@react-native-community/async-storage';
+import LineLogin from 'react-native-line-sdk';
 
 import PropTypes from 'prop-types';
 
@@ -15,7 +16,6 @@ class Login extends Component  {
   }
 
   FBGraphRequest = async (fields, callback) => {
-    console.log('test')
     const accessData = await AccessToken.getCurrentAccessToken();
     // Create a graph request asking for user information
     const infoRequest = new GraphRequest('/me', {
@@ -30,19 +30,18 @@ class Login extends Component  {
     new GraphRequestManager().addRequest(infoRequest).start();
   };
   _FBLoginCallback = async (err, ret) => {
-    console.log(ret)
-      if (error) {
-        
-      } else {
-        try {
-          console.log(ret);
-          await AsyncStorage.setItem('@haetae:profile', ret);
-        }
-        catch (error) {
-          // Error saving data
-        }
+    if (err) {
+      
+    } else {
+      try {
+        await this._storeData('@haetae:profile', ret);
+        this._loadLanding();
       }
-    } ;
+      catch (err) {
+        // Error saving data
+      }
+    }
+  } ;
   _loadLanding = () => {
     Navigation.setStackRoot(this.props.componentId,
     {
@@ -67,18 +66,34 @@ class Login extends Component  {
     console.log('onPressFacebook');
     this._loadLanding();
   }
-  _storeData = async () => {
+  _storeData = async (key, data)=> {
     try {
-      await AsyncStorage.setItem('@haetae:profile', 'test');
+      ret = new Object();
+      if(data.profile !== undefined) {
+        ret.profileUri = data.profile.pictureURL;
+        ret.name = data.openId.name ? data.openId.name : data.profile.displayName;
+        ret.email = data.openId.email ? data.openId.email : '';
+      }
+      else {
+        // FB
+      }
+      await AsyncStorage.setItem(key, JSON.stringify(ret));
     } catch (error) {
       // Error saving data
+      console.log(error);
     }
   };
   
-  onPressGoogle = () => {
-    console.log('onPressGoogle');
-    this._storeData();
-    this._loadLanding();
+  onPressLine = () => {
+    LineLogin.login()
+    .then((user) => {
+      this._storeData('@haetae:profile', user);
+      this._loadLanding();
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    
   }
 
   onPressInstagram = () => {
@@ -87,7 +102,6 @@ class Login extends Component  {
   }
 
   render = () => {
-    console.log(this.props);
     return (
       <View style={styles.container}>
         <ImageBackground
@@ -124,14 +138,15 @@ class Login extends Component  {
                     } else if (result.isCancelled) {
                       console.log('login is cancelled.');
                     } else {
-                      this.FBGraphRequest('id, email, name, picture.type(large)').then(this._FBLoginCallback);
+                      this.FBGraphRequest('id, email, name, picture.type(large)', 
+                      this._FBLoginCallback);
                     }
                   }
                 }
                 onLogoutFinished={() => console.log('logout.')}/>
               <TouchableOpacity
                 style={styles.loginButtonImage}
-                onPress={this.onPressGoogle}
+                onPress={this.onPressLine}
               >
                 <Image
                   style={styles.loginButtonImage}
