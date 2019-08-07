@@ -14,6 +14,12 @@ class Landing extends Component  {
       images: props.images,
     };
   }
+
+  state = {
+    profileImage: '',
+    name: '',
+  }
+
   chooseFile = () => {
     // TODO: multi file select logic
     ImagePicker.openPicker({
@@ -61,7 +67,7 @@ class Landing extends Component  {
   }
   _retrieveData = async () => {
     try {
-      const value = await AsyncStorage.getItem('@haetae:profile');
+      const value = await AsyncStorage.getItem('@haetae:userInfo');
       if (value !== null) {
         // We have data!!
         console.log(value);
@@ -70,8 +76,32 @@ class Landing extends Component  {
       // Error retrieving data
     }
   };
+
+  checkUserInfo = async () => {
+    const value = await AsyncStorage.getItem('@haetae:userInfo');
+    if (value !== null) {
+      console.log("userInfo data exist");
+      let stateDB = JSON.parse(value);
+      console.log('storeDB: ' + stateDB);
+      this.setState({
+        profileImage: stateDB.profileImage,
+        name: stateDB.firstName,
+      });
+    }
+    else {
+      console.log("user info data not exist");
+      this.setState({
+        profileImage: '',
+        name: 'Anonymous',
+      });
+    }
+  }
+
+  componentDidMount() {
+    this.checkUserInfo();
+  }
+
   render = () => {
-    this._retrieveData();
     const title = (
       <View style={styles.title}>
         <TouchableOpacity onPress={this.onPressLogo}>
@@ -144,14 +174,23 @@ class Landing extends Component  {
       <View style={styles.content}>
         <ScrollView>
           <TouchableOpacity onPress={this.onPressProfile}>
-            <Image
+            {this.state.profileImage.length > 0 ?
+              <Image
               style={styles.profileImage}
-              source={require('./assets/hmong_profile.png')}
-              resizeMode="contain"
-            />
+              source={{uri: this.state.profileImage.indexOf("://") == -1 ?
+                        'file://' + this.state.profileImage :
+                        this.state.profileImage}}
+              resizeMode="cover"
+              /> :
+              <Image
+                style={styles.profileImage}
+                source={require('./assets/hmong_profile.png')}
+                resizeMode="cover"
+              />
+            }
           </TouchableOpacity>
           <Text style={styles.contentTitle}>Hello</Text>
-          <Text style={styles.contentTitle}> Thatthiang,</Text>
+          <Text style={styles.contentTitle}>{this.state.name}</Text>
           <View style={styles.empty}/>
           {this.state.images.length > 0 ? onReadyImages : addImages}
           <View style={styles.copyright}>

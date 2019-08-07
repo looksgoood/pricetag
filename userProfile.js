@@ -1,19 +1,34 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Dimensions, TextInput } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { TextField } from 'react-native-material-textfield';
+import AsyncStorage from '@react-native-community/async-storage';
+import ImagePicker from 'react-native-image-picker';
 import PropTypes from 'prop-types';
 
+import { YellowBox } from 'react-native';
+
 let screanItemSize = (Dimensions.get('window').width - 30) / 3;
+
+YellowBox.ignoreWarnings([
+  'Warning: componentWillMount is deprecated',
+  'Warning: componentWillUpdate is deprecated',
+  'Warning: componentWillReceiveProps is deprecated',
+  'Module RCTImageLoader requires',
+]);
 
 class UserProfile extends Component  {
   constructor(props) {
     super(props);
 
     this.onFocus = this.onFocus.bind(this);
-    // this.onSubmit = this.onSubmit.bind(this);
     this.onChangeText = this.onChangeText.bind(this);
     this.onSubmitFirstName = this.onSubmitFirstName.bind(this);
+    this.onSubmitLastName = this.onSubmitLastName.bind(this);
+    this.onSubmitNickName = this.onSubmitNickName.bind(this);
+    this.onSubmitEmail = this.onSubmitEmail.bind(this);
+    this.onSubmitGood = this.onSubmitGood.bind(this);
+    this.onSubmitStory = this.onSubmitStory.bind(this);
 
     this.firstNameRef = this.updateRef.bind(this, 'firstName');
     this.lastNameRef = this.updateRef.bind(this, 'lastName');
@@ -24,29 +39,77 @@ class UserProfile extends Component  {
   }
 
   state = {
+    profileImage: '',
     firstName: '',
     lastName: '',
     nickName: '',
     email: '',
     good: '',
     story: '',
-    logo: '',
   }
 
   onPressBack = () => {
     Navigation.popToRoot(this.props.componentId);
   }
 
+  onSaveDB = async () => {
+    await AsyncStorage.setItem("@haetae:userInfo", JSON.stringify(this.state));
+    Navigation.popToRoot(this.props.componentId);
+  }
+
   onPressSave = () => {
     console.log("onPressSave");
+
+    let errors = {};
+
+    ['firstName', 'lastName', 'email']
+      .forEach((name) => {
+        let value = this[name].value();
+
+        if (!value) {
+          errors[name] = 'Should not be empty';
+        }
+      }
+    );
+
+    if (this.state.profileImage.length == 0) {
+      errors["profileImage"] = 'Should not be empty';
+    }
+
+    if (Object.keys(errors).length > 0) {
+      this.setState({ errors });
+    } else {
+      this.onSaveDB();
+    }
   }
 
   onPressEdit = () => {
-    console.log("onPressEdit");
-  }
+    var options = {
+      title: 'Select Image',
+      customButtons: [
+        { name: 'customOptionKey', title: 'Choose Photo from Custom Option' },
+      ],
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
 
-  onPressLogo = () => {
-    console.log("onPressEdit");
+    ImagePicker.showImagePicker(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        let filePath = response.path
+        console.log('filePath: ' + filePath);
+        this.setState({
+          profileImage: filePath,
+        });
+      }
+    });
   }
 
   onFocus() {
@@ -59,7 +122,6 @@ class UserProfile extends Component  {
         delete errors[name];
       }
     }
-
     this.setState({ errors });
   }
 
@@ -77,7 +139,7 @@ class UserProfile extends Component  {
     this.lastName.focus();
   }
 
-  onSubmitNastName() {
+  onSubmitLastName() {
     this.nickName.focus();
   }
 
@@ -90,7 +152,7 @@ class UserProfile extends Component  {
   }
 
   onSubmitGood() {
-    this.story.focus();
+    console.log("onSubmitGood");
   }
 
   onSubmitStory() {
@@ -101,13 +163,35 @@ class UserProfile extends Component  {
     this[name] = ref;
   }
 
+  checkDB = async () => {
+    const value = await AsyncStorage.getItem('@haetae:userInfo');
+    if (value !== null) {
+      console.log("user info data exist");      
+      let stateDB = JSON.parse(value);
+      this.setState({
+        profileImage: stateDB.profileImage,
+        firstName: stateDB.firstName,
+        lastName: stateDB.lastName,
+        nickName: stateDB.nickName,
+        email: stateDB.email,
+        good: stateDB.good,
+        story: stateDB.story,
+      });
+    } else {
+      console.log("user info data not exist");
+    }
+  }
+
+  componentDidMount() {
+    this.checkDB();
+  }
+
   render = () => {
     let { errors = {}, ...data } = this.state;
     let { firstname = 'name', lastname = 'house' } = data;
     let defaultEmail = `${firstname}@${lastname}.com`
       .replace(/\s+/g, '_')
       .toLowerCase();
-
 
     const title = (
       <View style={styles.title}>
@@ -125,11 +209,20 @@ class UserProfile extends Component  {
         <ScrollView>
           <View style={styles.profileContainer}>
             <View style={styles.imageContainer}>
-              <Image
+              {this.state.profileImage.length > 0 ?
+                <Image
                 style={styles.profileImage}
-                source={require('./assets/hmong_profile.png')}
-                resizeMode="contain"
-              />
+                source={{uri: this.state.profileImage.indexOf("://") == -1 ?
+                          'file://' + this.state.profileImage :
+                          this.state.profileImage}}
+                resizeMode="cover"
+                /> :
+                <Image
+                  style={styles.profileImage}
+                  source={require('./assets/hmong_profile.png')}
+                  resizeMode="cover"
+                />
+              }
               <View style={styles.editButtonContainer}>
                 <TouchableOpacity 
                   style={styles.editButton}
@@ -215,45 +308,18 @@ class UserProfile extends Component  {
               Just name a simple few words to describe{'\n'}
               what you’re good at.(....??????)
             </Text>
-            <TextField
+            <TextInput
               ref={this.storyRef}
               value={data.story}
-              autoCorrect={false}
-              enablesReturnKeyAutomatically={true}
+              editable = {true}
+              multiline = {true}
+              numberOfLines = {4}
               onFocus={this.onFocus}
               onChangeText={this.onChangeText}
               onSubmitEditing={this.onSubmitStory}
-              returnKeyType='next'
-              multiline={true}
-              lineWidth={0}
-              error={errors.story}
-              containerStyle={styles.storyContainer}
+              blurOnSubmit={false}
               style={styles.storyText}
             />
-          </View>
-          <View style={styles.itemContainer}>
-            <Text style={styles.goodTitle}>Upload your logo for editing</Text>
-            <Text style={styles.goodContent}>
-              Just name a simple few words to describe{'\n'}
-              what you’re good at.(....??????)
-            </Text>
-            <View style={styles.logoImageContainer}>
-              <TouchableOpacity
-                onPress={this.onPressLogo()}
-              >
-                {this.state.logo.length > 0 ? 
-                <Image
-                  style={styles.logoImageItem}
-                  source={{uri: 'file://' + this.state.logo}}
-                  resizeMode="cover"
-                /> :
-                <Image
-                  style={styles.moreButton}
-                  source={require('./assets/more_button.png')}
-                  resizeMode="contain"
-                />}
-              </TouchableOpacity>
-            </View>
           </View>
         </ScrollView>
       </View>
@@ -355,37 +421,9 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 12,
   },
-  storyContainer: {
-    marginTop: 15,
-    marginBottom: 30,
+  storyText: {
     borderColor: 'gray',
     borderWidth: 0.5,
-    minHeight: 116,
-  },
-  storyText: {
     textAlignVertical: 'top',
-  },
-  logoImageContainer: {
-    height: 103,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F8F8F8',
-    borderRadius: 30,
-  },
-  logoImageItem: {
-    width: screanItemSize,
-    height: screanItemSize,
-    borderRadius: 20,
-  },
-  moreItem: {
-    width: screanItemSize,
-    height: screanItemSize,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  moreButton: {
-    width: 65,
-    height: 65,
   },
 });
