@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { StyleSheet, View, ImageBackground, Image, Text } from 'react-native';
 import ImageIntent from 'react-native-image-intent';
 import { Navigation } from 'react-native-navigation';
-import AsyncStorage from '@react-native-community/async-storage';
 
 export default class App extends Component {
   state = {
@@ -22,56 +21,20 @@ export default class App extends Component {
     });
   }
 
-  _loadLanding = () => {
-    Navigation.setStackRoot(this.props.componentId,
-    {
-      component: {
-          name: 'example.Landing',
-          passProps: {
-            images: this.state.images,
-            token: this.state.token,
-          },
-        },
-        options: {
-          animations: {
-            setStackRoot: {
-              enabled: true,
-            },
-          },
-        },
-    });
-  };
-
-  checkLogin = async () => {
-    const value = await AsyncStorage.getItem('@haetae:profile');
-    if (value !== null) {
-      console.log("login data exist");
-      this.checkImageIntent(true);
-    }
-    else {
-      this.checkImageIntent(false);
-    }
-  }
-
-  checkImageIntent = (loginFlag) => {
+  componentDidMount() {
     ImageIntent.getImageIntentUrl().then((url) => {
       this.setState({
-        isLoaded: loginFlag,
         isLoaded: true,
         imageUris: url,
       });
     }).catch(e => {
       setTimeout(() => {
         this.setState({
-          isLoaded: loginFlag,
           isLoaded: true,
         });
       }, 1000);
     });
-  }
 
-  componentDidMount() {
-    this.checkLogin();
   }
 
   render() {
@@ -94,10 +57,7 @@ export default class App extends Component {
     );
     return (
       <View style={styles.container}>
-        {this.state.isLoaded ? 
-          this.state.isLogin ? this._loadLanding() :
-            this._loadLogin() :
-          splash}
+        {this.state.isLoaded ? this._loadLogin() : splash}
       </View>
     );
   }
