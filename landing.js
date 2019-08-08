@@ -4,6 +4,7 @@ import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-community/async-storage';
+import { setCustomText } from 'react-native-global-props';
 
 let screanItemSize = (Dimensions.get('window').width - 150) / 3;
 
@@ -15,6 +16,12 @@ class Landing extends Component  {
       profileImage: '',
       name: '',
     };
+    const customTextProps = { 
+      style: { 
+        fontFamily: 'SamsungOneThai, SamsungOne'
+      }
+    }
+    setCustomText(customTextProps);
   }
 
   state = {
