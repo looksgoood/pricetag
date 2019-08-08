@@ -13,6 +13,7 @@ import CustomizeImage from './customizeImage';
 import ImageEditor from './imageEditor';
 import PrintOrPost from './printOrPost';
 import SharePost from './sharePost';
+import ProductProfile from './productProfile';
 import PrintBrandTag from './printBrandTag';
 
 Navigation.registerComponent('example.FirstScreen', () => App);
@@ -24,6 +25,7 @@ Navigation.registerComponent('example.CustomizeImage', () => CustomizeImage);
 Navigation.registerComponent('example.ImageEditor', () => ImageEditor);
 Navigation.registerComponent('example.PrintOrPost', () => PrintOrPost);
 Navigation.registerComponent('example.SharePost', () => SharePost);
+Navigation.registerComponent('example.ProductProfile', () => ProductProfile);
 Navigation.registerComponent('example.PrintBrandTag', () => PrintBrandTag);
 
 Navigation.setDefaultOptions({
