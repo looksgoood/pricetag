@@ -91,7 +91,7 @@ class Login extends Component  {
       else {
         ret.profileUri = data.picture.data.url;
         ret.name = data.name;
-        ret.email = data.email;
+        ret.email = data.email ? data.email : '';
       }
       await AsyncStorage.setItem(key, JSON.stringify(ret));
     } catch (error) {

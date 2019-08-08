@@ -5,12 +5,13 @@ import PropTypes from 'prop-types';
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import { setCustomText } from 'react-native-global-props';
-
+import {setI18nConfig, translate } from './contentGetters'
 let screanItemSize = (Dimensions.get('window').width - 150) / 3;
 
 class Landing extends Component  {
   constructor(props) {
     super(props);
+    setI18nConfig();
     this.state = {
       images: props.images,
       profileImage: '',
@@ -120,9 +121,7 @@ class Landing extends Component  {
     const addImages = (
       <View style={styles.cardContainer}>
         <Text style={styles.onReadyTitle}>
-          Make your{'\n'}
-          Brand Identity{'\n'}
-          to your product
+          {translate("login-para-1")}
         </Text>
         <Text style={styles.onReadyDescription}>
           A Simple Process to design your own{'\n'}
