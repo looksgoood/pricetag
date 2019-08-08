@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, ToastAndroid } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import Dialog, { DialogTitle, DialogFooter, DialogButton, DialogContent } from 'react-native-popup-dialog';
+// import {renderToCanvas} from "render-react-native-to-image"
 import PropTypes from 'prop-types';
 
 class PrintBrandTag extends Component  {
@@ -11,51 +12,66 @@ class PrintBrandTag extends Component  {
 
   state = {
     dialogVisible: false,
+    printDialog: false,
   }
 
   onPressBack = () => {
     console.log("onPressBack");
-    Navigation.dismissModal(this.props.componentId);
+    Navigation.pop(this.props.componentId);
   }
 
   onPressPrint = () => {
     console.log("onPressPrint");
-    this.setState({ dialogVisible: true });
-  }
-
-  onPressEmpty = () => {
-    console.log("onPressEmpty");
-    Navigation.dismissAllModals();
+    this.setState({ printDialog: true });
   }
 
   // TODO
   onPressPrintBrandTag = () => {
     console.log("onPressPrintBrandTag");
+    ToastAndroid.show("Congratulations! Printing has been completed.", ToastAndroid.SHORT);
+    Navigation.setStackRoot(this.props.componentId,
+    {
+      component: {
+        name: 'example.Landing',
+      },
+      options: {
+        animations: {
+          setStackRoot: {
+            enabled: true,
+          },
+        },
+      },
+    });
+  }
+
+  onPressBrandTagInfo = () => {
+    console.log("onPressBrandTagInfo");
+    this.setState({ dialogVisible: true });
   }
 
   render = () => {
     const title = (
       <View style={styles.title}>
         <TouchableOpacity style={styles.backButton} onPress={this.onPressBack}>
-          <Text style={styles.backButton}>Previous</Text>
+          <Text style={styles.backButton}>{'<'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.printButton} onPress={this.onPressPrint}>
           <Text style={styles.printButton}>Print</Text>
         </TouchableOpacity>
         <Dialog
-          visible={this.state.dialogVisible}
+          visible={this.state.printDialog}
           onTouchOutside={() => {
-            this.setState({ dialogVisible: false });
+            this.setState({ printDialog: false });
           }}
           width={0.9}
           dialogTitle={<DialogTitle title="Are Your sure to print this design out in a brand tag?" />}
           footer={
             <DialogFooter>
               <DialogButton text="Cancel" onPress={() => {
-                this.setState({ dialogVisible: false });
+                this.setState({ printDialog: false });
               }}/>
               <DialogButton text="Print" onPress={() => {
-                this.setState({ dialogVisible: false });
+                this.setState({ printDialog: false });
                 this.onPressPrintBrandTag();
               }}/>
             </DialogFooter>
@@ -117,10 +133,41 @@ class PrintBrandTag extends Component  {
             </TouchableOpacity>
           </View>
           <View style={styles.brandTagInfoContainer}>
-            <Text style={styles.brandTagInfoText}>
-              * A brand Tag is basically printed in a way of{'\n'}
-              a template with Tutorial guide.
+            <Text
+              style={styles.brandTagInfoText}
+              onPress={this.onPressBrandTagInfo}
+            >
+              What is Printing Out as{'\n'}
+              a Brand Tag?
             </Text>
+            <Dialog
+              visible={this.state.dialogVisible}
+              onTouchOutside={() => {
+                this.setState({ dialogVisible: false });
+              }}
+              width={0.9}
+              dialogTitle={<DialogTitle title="What is Printing Out as a Brand Tag?" />}
+              footer={
+                <DialogFooter>
+                  <DialogButton text="OK" onPress={() => {
+                    this.setState({ dialogVisible: false });
+                  }}/>
+                </DialogFooter>
+              }
+            >
+              <DialogContent>
+                <Text>
+                  blahblahblahblahblahblahblahblahblah{'\n'}
+                  blahblahblahblahblahblahblahblahblah{'\n'}
+                  blahblahblahblahblahblahblahblahblah{'\n'}
+                  blahblahblahblahblahblahblahblahblah{'\n'}
+                  blahblahblahblahblahblahblahblahblah{'\n'}
+                  blahblahblahblahblahblahblahblahblah{'\n'}
+                  blahblahblahblahblahblahblahblahblah{'\n'}
+                  blahblahblahblahblahblahblahblahblah{'\n'}
+                </Text>
+              </DialogContent>
+            </Dialog>
           </View>
         </View>
       </View>
@@ -131,10 +178,6 @@ class PrintBrandTag extends Component  {
       {title}
       <View style={styles.body}>
         <ScrollView>
-          <TouchableOpacity
-            style={styles.empty} 
-            onPress = {this.onPressBack}
-          />
           {content}
         </ScrollView>
       </View>
@@ -184,9 +227,6 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
   },
-  empty: {
-    height: 270,
-  },
   content: {
     backgroundColor: 'white',
     paddingTop: 10,
@@ -234,7 +274,6 @@ const styles = StyleSheet.create({
   },
   editButtonContainer: {
     marginTop: 30,
-    marginBottom: 30,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -255,6 +294,15 @@ const styles = StyleSheet.create({
   padding: {
     width: 48,
   },
+  brandTagContainer: {
+    marginTop: 20,
+    marginBottom: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  brandTagText: {
+    fontSize: 15,
+  },
   brandTagInfoContainer: {
     marginTop: 20,
     marginBottom: 20,
@@ -262,6 +310,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   brandTagInfoText: {
-    fontSize: 15,
-  }
+    color: '#2C85FF',
+    fontSize: 12,
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+    textAlignVertical: 'center',
+    textAlign: 'center',
+  },
+  dialog: {
+    marginLeft: 20,
+    marginRight: 20,
+  },
 });

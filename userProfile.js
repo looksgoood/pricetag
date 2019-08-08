@@ -8,8 +8,6 @@ import PropTypes from 'prop-types';
 
 import { YellowBox } from 'react-native';
 
-let screanItemSize = (Dimensions.get('window').width - 30) / 3;
-
 YellowBox.ignoreWarnings([
   'Warning: componentWillMount is deprecated',
   'Warning: componentWillUpdate is deprecated',
@@ -30,7 +28,6 @@ class UserProfile extends Component  {
     this.onSubmitEmail = this.onSubmitEmail.bind(this);
     this.onSubmitWebsite = this.onSubmitWebsite.bind(this);
     this.onSubmitGood = this.onSubmitGood.bind(this);
-    // this.onSubmitStory = this.onSubmitStory.bind(this);
 
     this.nameRef = this.updateRef.bind(this, 'name');
     this.thaiNameRef = this.updateRef.bind(this, 'thaiName');
@@ -38,7 +35,6 @@ class UserProfile extends Component  {
     this.emailRef = this.updateRef.bind(this, 'email');
     this.websiteRef = this.updateRef.bind(this, 'website');
     this.goodRef = this.updateRef.bind(this, 'good');
-    // this.storyRef = this.updateRef.bind(this, 'story');
   }
 
   state = {
@@ -49,7 +45,6 @@ class UserProfile extends Component  {
     email: '',
     website: '',
     good: '',
-    // story: '',
   }
 
   onPressBack = () => {
@@ -175,10 +170,6 @@ class UserProfile extends Component  {
   onSubmitGood() {
     console.log("onSubmitGood");
   }
-
-  // onSubmitStory() {
-  //   console.log("onSubmitStory");
-  // }
 
   updateRef(name, ref) {
     this[name] = ref;
@@ -348,25 +339,6 @@ class UserProfile extends Component  {
               error={errors.good}
             />
           </View>
-          {/* <View style={styles.itemContainer}>
-            <Text style={styles.goodTitle}>Tell us about your story</Text>
-            <Text style={styles.goodContent}>
-              Just name a simple few words to describe{'\n'}
-              what you’re good at.(....??????)
-            </Text>
-            <TextInput
-              ref={this.storyRef}
-              value={data.story}
-              editable = {true}
-              multiline = {true}
-              numberOfLines = {4}
-              onFocus={this.onFocus}
-              onChangeText={this.onChangeText}
-              onSubmitEditing={this.onSubmitStory}
-              blurOnSubmit={false}
-              style={styles.storyText}
-            />
-          </View> */}
         </ScrollView>
       </View>
     );
@@ -474,9 +446,4 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 12,
   },
-  // storyText: {
-  //   borderColor: 'gray',
-  //   borderWidth: 0.5,
-  //   textAlignVertical: 'top',
-  // },
 });
