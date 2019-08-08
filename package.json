@@ -22,6 +22,7 @@
     "react-native-navigation": "3.0.0-alpha.6",
     "react-native-photo-editor": "0.0.7",
     "react-native-popup-dialog": "^0.18.3",
+    "react-native-share": "^2.0.0",
     "rn-fetch-blob": "^0.10.16"
   },
   "devDependencies": {

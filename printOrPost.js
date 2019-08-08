@@ -8,7 +8,9 @@ class PrintOrPost extends Component  {
   constructor(props) {
     super(props);
   }
-
+  componentDidMount(){
+    this.setState({images:this.props.images});
+  }
   state = {
     postingChecked: false,
     dialogVisible: false,
@@ -73,7 +75,7 @@ class PrintOrPost extends Component  {
       });
     }
   }
-
+  
   onPressBrandTagInfo = () => {
     console.log("onPressBrandTagInfo");
     this.setState({ dialogVisible: true });

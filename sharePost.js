@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
+import Share from 'react-native-share';
 
 class SharePost extends Component  {
   constructor(props) {
@@ -19,11 +20,34 @@ class SharePost extends Component  {
   }
 
   onPressFB = () => {
-    console.log("onPressFB");
+    const shareOptions = {
+      url: 'https://dummyimage.com/600x400/000/fff',
+      social: Share.Social.FACEBOOK
+    };
+    
+    Share.shareSingle(shareOptions)
+    .then((res) => { console.log(res) })
+    .catch((err) => { err && console.log(err); });
   }
 
+  onPressShare = () => {
+    const shareOptions = {
+      urls: ['https://dummyimage.com/600x400/000/fff',]
+    };
+    
+    Share.open(shareOptions)
+    .then((res) => { console.log(res) })
+    .catch((err) => { err && console.log(err); });
+  }
   onPressInsta = () => {
-    console.log("onPressInsta");
+    const shareOptions = {
+      url: 'https://dummyimage.com/600x400/000/fff',
+      social: Share.Social.INSTAGRAM
+    };
+    
+    Share.shareSingle(shareOptions)
+    .then((res) => { console.log(res) })
+    .catch((err) => { err && console.log(err); });
   }
 
   onPressLine = () => {
@@ -105,7 +129,7 @@ class SharePost extends Component  {
               <View stlye={styles.shareImageTextContainer}>
                 <TouchableOpacity
                   style={styles.shareImage}
-                  onPress={this.onPressLine}
+                  onPress={this.onPressShare}
                 >
                   <Image
                     style={styles.shareImage}
