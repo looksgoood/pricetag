@@ -67,17 +67,6 @@ class Landing extends Component  {
       this.chooseFile();
     }
   }
-  _retrieveData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('@haetae:userInfo');
-      if (value !== null) {
-        // We have data!!
-        console.log(value);
-      }
-    } catch (error) {
-      // Error retrieving data
-    }
-  };
 
   checkUserInfo = async () => {
     console.log("checkUserInfo");
@@ -88,7 +77,7 @@ class Landing extends Component  {
       console.log('storeDB: ' + stateDB);
       this.setState({
         profileImage: stateDB.profileImage,
-        name: stateDB.firstName,
+        name: stateDB.name,
       });
     }
     else {
@@ -261,7 +250,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   moreButton: {
-    width: 50,
+    width: 30,
     height: '100%',
     alignItems: 'center',
     fontSize: 36,
