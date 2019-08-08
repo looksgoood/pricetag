@@ -49,7 +49,6 @@ class Login extends Component  {
           name: 'example.Landing',
           passProps: {
             images: this.state.images,
-            token: this.state.token,
           },
         },
         options: {
@@ -107,7 +106,7 @@ class Login extends Component  {
         <ImageBackground
           style={styles.loginBackground}
           resizeMode="cover"
-          source={require('./assets/login_BG.png')}>
+          source={require('./assets/login_BG.jpg')}>
           <View style={styles.loginTextContainer}>
             <Image
               style={styles.loginTextImage}

@@ -23,29 +23,33 @@ class UserProfile extends Component  {
 
     this.onFocus = this.onFocus.bind(this);
     this.onChangeText = this.onChangeText.bind(this);
-    this.onSubmitFirstName = this.onSubmitFirstName.bind(this);
-    this.onSubmitLastName = this.onSubmitLastName.bind(this);
-    this.onSubmitNickName = this.onSubmitNickName.bind(this);
-    this.onSubmitEmail = this.onSubmitEmail.bind(this);
-    this.onSubmitGood = this.onSubmitGood.bind(this);
-    this.onSubmitStory = this.onSubmitStory.bind(this);
 
-    this.firstNameRef = this.updateRef.bind(this, 'firstName');
-    this.lastNameRef = this.updateRef.bind(this, 'lastName');
-    this.nickNameRef = this.updateRef.bind(this, 'nickName');
+    this.onSubmitName = this.onSubmitName.bind(this);
+    this.onSubmitThaiName = this.onSubmitThaiName.bind(this);
+    this.onSubmitPhoneNumber = this.onSubmitPhoneNumber.bind(this);
+    this.onSubmitEmail = this.onSubmitEmail.bind(this);
+    this.onSubmitWebsite = this.onSubmitWebsite.bind(this);
+    this.onSubmitGood = this.onSubmitGood.bind(this);
+    // this.onSubmitStory = this.onSubmitStory.bind(this);
+
+    this.nameRef = this.updateRef.bind(this, 'name');
+    this.thaiNameRef = this.updateRef.bind(this, 'thaiName');
+    this.phoneNumberRef = this.updateRef.bind(this, 'phoneNumber');
     this.emailRef = this.updateRef.bind(this, 'email');
+    this.websiteRef = this.updateRef.bind(this, 'website');
     this.goodRef = this.updateRef.bind(this, 'good');
-    this.storyRef = this.updateRef.bind(this, 'story');
+    // this.storyRef = this.updateRef.bind(this, 'story');
   }
 
   state = {
     profileImage: '',
-    firstName: '',
-    lastName: '',
-    nickName: '',
+    name: '',
+    thaiName: '',
+    phoneNumber: '',
     email: '',
+    website: '',
     good: '',
-    story: '',
+    // story: '',
   }
 
   onPressBack = () => {
@@ -54,6 +58,19 @@ class UserProfile extends Component  {
 
   onSaveDB = async () => {
     await AsyncStorage.setItem("@haetae:userInfo", JSON.stringify(this.state));
+    Navigation.setStackRoot(this.props.componentId,
+    {
+      component: {
+          name: 'example.Landing',
+        },
+        options: {
+          animations: {
+            setStackRoot: {
+              enabled: true,
+            },
+          },
+        },
+    });
     Navigation.popToRoot(this.props.componentId);
   }
 
@@ -62,7 +79,7 @@ class UserProfile extends Component  {
 
     let errors = {};
 
-    ['firstName', 'lastName', 'email']
+    ['name', 'phoneNumber', 'email']
       .forEach((name) => {
         let value = this[name].value();
 
@@ -126,7 +143,7 @@ class UserProfile extends Component  {
   }
 
   onChangeText = (text) => {
-    ['firstName', 'lastName', 'nickName', 'email', 'good', 'story']
+    ['name', 'thaiName', 'phoneNumber', 'email', 'website', 'good']
     .map((name) => ({ name, ref: this[name] }))
     .forEach(({ name, ref }) => {
       if (ref && ref.isFocused()) {
@@ -135,19 +152,23 @@ class UserProfile extends Component  {
     });
   }
 
-  onSubmitFirstName() {
-    this.lastName.focus();
+  onSubmitName() {
+    this.thaiName.focus();
   }
 
-  onSubmitLastName() {
-    this.nickName.focus();
+  onSubmitThaiName() {
+    this.phoneNumber.focus();
   }
 
-  onSubmitNickName() {
+  onSubmitPhoneNumber() {
     this.email.focus();
   }
 
   onSubmitEmail() {
+    this.website.focus();
+  }
+
+  onSubmitWebsite() {
     this.good.focus();
   }
 
@@ -155,9 +176,9 @@ class UserProfile extends Component  {
     console.log("onSubmitGood");
   }
 
-  onSubmitStory() {
-    console.log("onSubmitStory");
-  }
+  // onSubmitStory() {
+  //   console.log("onSubmitStory");
+  // }
 
   updateRef(name, ref) {
     this[name] = ref;
@@ -170,12 +191,12 @@ class UserProfile extends Component  {
       let stateDB = JSON.parse(value);
       this.setState({
         profileImage: stateDB.profileImage,
-        firstName: stateDB.firstName,
-        lastName: stateDB.lastName,
-        nickName: stateDB.nickName,
+        name: stateDB.name,
+        thaiName: stateDB.thaiName,
+        phoneNumber: stateDB.phoneNumber,
         email: stateDB.email,
+        website: stateDB.website,
         good: stateDB.good,
-        story: stateDB.story,
       });
     } else {
       console.log("user info data not exist");
@@ -185,7 +206,7 @@ class UserProfile extends Component  {
         let profileDB = JSON.parse(value);
         this.setState({
           profileImage: profileDB.profileUri,
-          firstName: profileDB.name,
+          name: profileDB.name,
           email: profileDB.email,
         });
       }
@@ -206,7 +227,7 @@ class UserProfile extends Component  {
     const title = (
       <View style={styles.title}>
         <TouchableOpacity style={styles.backButton} onPress={this.onPressBack}>
-          <Text style={styles.backButton}>Back</Text>
+          <Text style={styles.backButton}>{'<'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.saveButton} onPress={this.onPressSave}>
           <Text style={styles.saveButton}>Save</Text>
@@ -217,6 +238,9 @@ class UserProfile extends Component  {
     const content = (
       <View style={styles.content}>
         <ScrollView>
+          <Text style={styles.contentHeader}>
+            Fill out Your information
+          </Text>
           <View style={styles.profileContainer}>
             <View style={styles.imageContainer}>
               {this.state.profileImage.length > 0 ?
@@ -244,40 +268,40 @@ class UserProfile extends Component  {
             </View>
             <View style={styles.textContainer}>
               <TextField
-                ref={this.firstNameRef}
-                value={data.firstName}
+                ref={this.nameRef}
+                value={data.name}
                 autoCorrect={false}
                 enablesReturnKeyAutomatically={true}
                 onFocus={this.onFocus}
                 onChangeText={this.onChangeText}
-                onSubmitEditing={this.onSubmitFirstName}
+                onSubmitEditing={this.onSubmitName}
                 returnKeyType='next'
-                label='First Name'
-                error={errors.firstName}
+                label='Name'
+                error={errors.name}
               />
               <TextField
-                ref={this.lastNameRef}
-                value={data.lastName}
+                ref={this.thaiNameRef}
+                value={data.thaiName}
                 autoCorrect={false}
                 enablesReturnKeyAutomatically={true}
                 onFocus={this.onFocus}
                 onChangeText={this.onChangeText}
-                onSubmitEditing={this.onSubmitLastName}
+                onSubmitEditing={this.onSubmitThaiName}
                 returnKeyType='next'
-                label='Last Name'
-                error={errors.lastName}
+                label='Name (Thai Ver.)'
+                error={errors.thaiName}
               />
               <TextField
-                ref={this.nickNameRef}
-                value={data.nickName}
+                ref={this.phoneNumberRef}
+                value={data.phoneNumber}
                 autoCorrect={false}
                 enablesReturnKeyAutomatically={true}
                 onFocus={this.onFocus}
                 onChangeText={this.onChangeText}
-                onSubmitEditing={this.onSubmitNickName}
+                onSubmitEditing={this.onSubmitPhoneNumber}
                 returnKeyType='next'
-                label='How do I call you?'
-                error={errors.nickName}
+                label='Phone Number'
+                error={errors.phoneNumber}
               />
               <TextField
                 ref={this.emailRef}
@@ -290,6 +314,18 @@ class UserProfile extends Component  {
                 returnKeyType='next'
                 label='Email'
                 error={errors.email}
+              />
+              <TextField
+                ref={this.websiteRef}
+                value={data.website}
+                autoCorrect={false}
+                enablesReturnKeyAutomatically={true}
+                onFocus={this.onFocus}
+                onChangeText={this.onChangeText}
+                onSubmitEditing={this.onSubmitWebsite}
+                returnKeyType='next'
+                label='Website (expressed via QR Code)'
+                error={errors.website}
               />
             </View>
           </View>
@@ -312,7 +348,7 @@ class UserProfile extends Component  {
               error={errors.good}
             />
           </View>
-          <View style={styles.itemContainer}>
+          {/* <View style={styles.itemContainer}>
             <Text style={styles.goodTitle}>Tell us about your story</Text>
             <Text style={styles.goodContent}>
               Just name a simple few words to describe{'\n'}
@@ -330,7 +366,7 @@ class UserProfile extends Component  {
               blurOnSubmit={false}
               style={styles.storyText}
             />
-          </View>
+          </View> */}
         </ScrollView>
       </View>
     );
@@ -382,10 +418,16 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   content: {
+    marginBottom: 10,
     flex: 1,
-    paddingTop: 30,
     paddingLeft: 15,
     paddingRight: 15,
+  },
+  contentHeader: {
+    fontSize: 24,
+    fontWeight: '700',
+    fontFamily: 'SamsungOne',
+    width: 163,
   },
   profileContainer: {
     marginBottom: 30,
@@ -432,9 +474,9 @@ const styles = StyleSheet.create({
     marginTop: 5,
     fontSize: 12,
   },
-  storyText: {
-    borderColor: 'gray',
-    borderWidth: 0.5,
-    textAlignVertical: 'top',
-  },
+  // storyText: {
+  //   borderColor: 'gray',
+  //   borderWidth: 0.5,
+  //   textAlignVertical: 'top',
+  // },
 });
