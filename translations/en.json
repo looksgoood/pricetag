@@ -1,0 +1,57 @@
+{
+    "login-para-1":"A convenient way to\nenhance your brand identity",
+    "login-para-2":"Start effectively to make your products\nstand out in the on or off - line market\nby designing your own brand identity\nand applying it to the product.",
+    "login-para-3":"Log in with",
+    "profile-para-1": "Fill out your\ninformation",
+    "profile-para-2":"Name",
+    "profile-para-3":"Name(Thai Ver.)",
+    "profile-para-4":"Phone Number",
+    "profile-para-5":"Email",
+    "profile-para-6":"Website (expressed via QR Code)",
+    "profile-para-7":"e.g. Your online market URL",
+    "profile-para-8":"You’re good at",
+    "profile-para-9":"Just name a simple few words to describe\nwhat you’re good at. (100 word max.)",
+    "profile-para-10":"e.g. Thai Traditional Hmong-Textile Artist",
+
+    "main-para-1":"Hello",
+    "main-para-2":"Make your\nBrand Identity\nto your product",
+    "main-para-3":"A Simple Process to design your own\nBranding to your product",
+    "main-para-4":"Post to Online",
+    "main-para-5":"Print out\nas a Brand Tag",
+    "main-para-6":"Copyright © 2019 by Samsung OneWeek",
+    "main-para-7":"All rights reserved. This application or any portion thereof\nmay not be reproduced or used in any manner whatsoever\nwithout the express permission of the publisher",
+    
+    "product-profile-para-1":"Fill out Product\nInformation",
+    "product-profile-para-2":"Product Name(Eng Ver.)",
+    "product-profile-para-3":"Product Name(Thai Ver.)",
+    "product-profile-para-4":"Tell us about your story",
+    "product-profile-para-5":"Tell us about your product, its history and heritage.",
+    
+    "label-preview-para-1":"Print out\nas a Brand Tag",
+    "label-preview-para-2":"With your customized edit,\nmake your own Brand Tag for your product sale.",
+    "label-preview-para-3":"Preview",
+    "label-preview-para-4":"Front",
+    "label-preview-para-5":"Back",
+
+    "label-preview-modal-1-1":"Are you sure to print this design out in a brand tag ?",
+    "label-preview-modal-1-2":"If you checked the design and want to proceed printing, press “Print”.",
+
+    "label-preview-modal-2-1":"What is Printing Out as a Brand Tag ?",
+    "label-preview-modal-2-2":"What is Printing Out as a Brand Tag ?",
+    "printing":"Printing...",
+    
+    "after-print-complete":"Congratulations! Printing has been completed.",
+    "after-share-complete":"Congratulations! Online Posting has been\ncompleted.",
+
+    "upload-image-para-1":"Upload Images",
+    "upload-image-para-2":"photos are selected to upload.",
+    
+    "editor-image-para-1":"Customize\nYour Image",
+    "editor-image-para-2":"You can attach your own decription,\nwatermark, brand logo, signature\nand so on.",
+    
+    "share-image-para-1":"Post Your Own\nCustomized Feed to Online",
+    "share-image-para-2":"It’s show time to promote your own\nbrand products to the public",
+    "share-image-para-3":"Post this feed via",
+    "share-image-para-4":"save file\nto my phone",
+    "share-image-para-5":"Share",
+}

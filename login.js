@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ImageBackground, Image, TouchableOpacity, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { LoginButton, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
+import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 import AsyncStorage from '@react-native-community/async-storage';
 import LineLogin from 'react-native-line-sdk';
-
+import { setCustomText } from 'react-native-global-props';
 import PropTypes from 'prop-types';
 
 class Login extends Component  {
@@ -13,6 +13,12 @@ class Login extends Component  {
     this.state = {
       images: props.images,
     };
+    const customTextProps = { 
+      style: { 
+        fontFamily: 'SamsungOneThai, SamsungOne'
+      }
+    }
+    setCustomText(customTextProps);
   }
 
   FBGraphRequest = async (fields, callback) => {
@@ -29,12 +35,12 @@ class Login extends Component  {
     // Execute the graph request created above
     new GraphRequestManager().addRequest(infoRequest).start();
   };
-  _FBLoginCallback = async (err, ret) => {
+  _FBLoginCallback = (err, ret) => {
     if (err) {
       
     } else {
       try {
-        await this._storeData('@haetae:profile', ret);
+        this._storeData('@haetae:profile', ret);
         this._loadLanding();
       }
       catch (err) {
@@ -63,7 +69,16 @@ class Login extends Component  {
 
   onPressFacebook = () => {
     console.log('onPressFacebook');
-    this._loadLanding();
+    LoginManager.logInWithPermissions(['public_profile', 'email']).then((result, error) => {
+      if (error) {
+        console.log('login has error: ' + result.error);
+      } else if (result.isCancelled) {
+        console.log('login is cancelled.');
+      } else {
+        this.FBGraphRequest('id, email, name, picture.type(large)', 
+        this._FBLoginCallback);
+      }
+    })
   }
   _storeData = async (key, data)=> {
     try {
@@ -74,7 +89,9 @@ class Login extends Component  {
         ret.email = data.openId.email ? data.openId.email : '';
       }
       else {
-        // FB
+        ret.profileUri = data.picture.data.url;
+        ret.name = data.name;
+        ret.email = data.email;
       }
       await AsyncStorage.setItem(key, JSON.stringify(ret));
     } catch (error) {
@@ -129,20 +146,17 @@ class Login extends Component  {
               <View style={styles.loginLine}/>
             </View>
             <View style={styles.loginButtonImageContainer}>
-              <LoginButton
-                onLoginFinished={
-                  (error, result) => {
-                    if (error) {
-                      console.log('login has error: ' + result.error);
-                    } else if (result.isCancelled) {
-                      console.log('login is cancelled.');
-                    } else {
-                      this.FBGraphRequest('id, email, name, picture.type(large)', 
-                      this._FBLoginCallback);
-                    }
-                  }
-                }
-                onLogoutFinished={() => console.log('logout.')}/>
+              <TouchableOpacity
+                style={styles.loginButtonImage}
+                onPress={this.onPressFacebook}
+              >
+                <Image
+                  style={styles.loginButtonImage}
+                  source={require('./assets/login_fb_button.png')}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+
               <TouchableOpacity
                 style={styles.loginButtonImage}
                 onPress={this.onPressLine}
