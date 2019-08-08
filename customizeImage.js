@@ -27,7 +27,7 @@ class CustomizeImage extends Component  {
     console.log('onPressNext');
     Navigation.showModal({
       component: {
-        name: 'example.PrintOrPost',
+        name: 'example.SharePost',
         passProps: {
           images: this.state.images,
         },

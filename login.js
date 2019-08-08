@@ -163,7 +163,7 @@ class Login extends Component  {
               >
                 <Image
                   style={styles.loginButtonImage}
-                  source={require('./assets/login_google_button.png')}
+                  source={require('./assets/login_line_button.png')}
                   resizeMode="contain"
                 />
               </TouchableOpacity>
@@ -173,7 +173,7 @@ class Login extends Component  {
               >
                 <Image
                   style={styles.loginButtonImage}
-                  source={require('./assets/login_insta_button.png')}
+                  source={require('./assets/login_local_button.png')}
                   resizeMode="contain"
                 />
               </TouchableOpacity>

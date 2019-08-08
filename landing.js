@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { setCustomText } from 'react-native-global-props';
 
 let screanItemSize = (Dimensions.get('window').width - 150) / 3;
+let buttonItemSize = (Dimensions.get('window').width - 140) / 2;
 
 class Landing extends Component  {
   constructor(props) {
@@ -75,6 +76,14 @@ class Landing extends Component  {
     }
   }
 
+  onPressBrandTag = () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'example.ProductProfile',
+      },
+    });
+  }
+
   checkUserInfo = async () => {
     console.log("checkUserInfo");
     const value = await AsyncStorage.getItem('@haetae:userInfo');
@@ -132,11 +141,34 @@ class Landing extends Component  {
           <TouchableOpacity
             onPress={this.onPressOnReady}
           >
-            <Image
-              style={styles.plusButton}
-              source={require('./assets/more_button.png')}
-              resizeMode="contain"
-            />
+            <View style={styles.buttonContainer}>
+              <View style={styles.buttonCover}>
+                <Image
+                  style={styles.buttonImage}
+                  source={require('./assets/Posting.png')}
+                  resizeMode='center'
+                />
+              </View>
+              <View style={styles.buttonCover}>
+                <Text style={styles.buttonText}>Post to Online</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.onPressBrandTag}
+          >
+            <View style={styles.buttonContainer}>
+              <View style={styles.buttonCover}>
+                <Image
+                  style={styles.buttonImage}
+                  source={require('./assets/PriceTag.png')}
+                  resizeMode='center'
+                />
+              </View>
+              <View style={styles.buttonCover}>
+                <Text style={styles.buttonText}>Print out as a Brand Tag</Text>
+              </View>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
@@ -347,9 +379,29 @@ const styles = StyleSheet.create({
   },
   moreContainer: {
     marginTop: 10,
-    marginRight: 10,
+    flexDirection: 'row',
+  },
+  buttonContainer: {
+    width: buttonItemSize,
+    height: buttonItemSize,
+    backgroundColor: '#EDEDED',
+    borderRadius: 20,
+    marginRight: 15,
+  },
+  buttonCover: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonImage: {
+    width: 50,
+    height: 80,
+  },
+  buttonText: {
+    width: 80,
+    fontSize: 10,
+    textAlignVertical: 'center',
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   plusButton: {
     marginTop: 10,
