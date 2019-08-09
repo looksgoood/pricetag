@@ -72,7 +72,7 @@ class CustomizeImage extends Component  {
           <Text style={styles.backButton}>{'Previous'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.nextButton} onPress={this.onPressNext}>
-          <Text style={styles.nextButton}>Next</Text>
+          <Text style={styles.nextButton}>{translate('next')}</Text>
         </TouchableOpacity>
       </View>
     );
