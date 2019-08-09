@@ -219,14 +219,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: 'white',
-    width: 250,
   },
   loginTextDescription: {
     marginTop: 30,
-    fontSize: 18,
+    fontSize: 16,
     lineHeight: 18 * 1.5,
     color: 'white',
-    width: 330,
   },
   loginButtonContainer: {
     flex: 1,

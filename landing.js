@@ -130,7 +130,7 @@ class Landing extends Component  {
     const addImages = (
       <View style={styles.cardContainer}>
         <Text style={styles.onReadyTitle}>
-          {translate("login-para-1")}
+          {translate("main-para-2")}
         </Text>
         <Text style={styles.onReadyDescription}>
         {translate("main-para-3")}
@@ -144,7 +144,7 @@ class Landing extends Component  {
                 <Image
                   style={styles.buttonImage}
                   source={require('./assets/Posting.png')}
-                  resizeMode='center'
+                  resizeMode='cover'
                 />
               </View>
               <View style={styles.buttonCover}>
@@ -160,7 +160,7 @@ class Landing extends Component  {
                 <Image
                   style={styles.buttonImage}
                   source={require('./assets/PriceTag.png')}
-                  resizeMode='center'
+                  resizeMode='cover'
                 />
               </View>
               <View style={styles.buttonCover}>
@@ -174,9 +174,9 @@ class Landing extends Component  {
 
     const onReadyImages = (
       <View style={styles.cardContainer}>
-        <Text style={styles.onReadyTitle}>On Ready</Text>
+        <Text style={styles.onReadyTitle}>{translate("main-para-8")}</Text>
         <Text style={styles.onReadyDescription}>
-          {this.state.images.length} photos are ready to upload
+          {this.state.images.length} {translate("main-para-9")}
         </Text>
         <TouchableOpacity 
           style={styles.startButton}
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   onReadyTitle: {
-    fontSize: 24,
+    fontSize: 21,
     fontWeight: 'bold',
     color: 'black',
   },
@@ -389,8 +389,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonImage: {
+    marginTop: 30,
     width: 50,
-    height: 80,
+    height: 50,
   },
   buttonText: {
     width: 80,
@@ -406,7 +407,7 @@ const styles = StyleSheet.create({
   },
   copyright: {
     marginTop: 30,
-    marginBottom: 15,
+    // marginBottom: 15,
     justifyContent: 'center',
     alignItems: 'center'
   },

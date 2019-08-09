@@ -400,7 +400,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '700',
     fontFamily: 'SamsungOne',
-    width: 163,
   },
   profileContainer: {
     marginBottom: 30,

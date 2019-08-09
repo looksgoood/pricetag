@@ -233,7 +233,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '700',
     fontFamily: 'SamsungOne',
-    width: 180,
   },
   itemContainer: {
     marginBottom: 30,

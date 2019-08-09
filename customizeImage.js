@@ -18,6 +18,7 @@ class CustomizeImage extends Component  {
   state = {
     images: [],
     selectedImage: '',
+    visible: 0,
   }
 
   onPressBack = () => {
@@ -26,22 +27,30 @@ class CustomizeImage extends Component  {
 
   onPressNext = () => {
     console.log('onPressNext');
-    Navigation.showModal({
+    Navigation.push(this.props.componentId, {
       component: {
         name: 'example.SharePost',
-        passProps: {
-          images: this.state.images,
-        },
-        options: {
-          screenBackgroundColor: 'transparent',
-          modalPresentationStyle: 'overCurrentContext',
-          topBar: {
-            visible: false,
-            drawBehind: true,
-          },
-        },
+      },
+      passProps: {
+        images: this.state.images,
       },
     });
+    // Navigation.showModal({
+    //   component: {
+    //     name: 'example.SharePost',
+    //     passProps: {
+    //       images: this.state.images,
+    //     },
+    //     options: {
+    //       screenBackgroundColor: 'transparent',
+    //       modalPresentationStyle: 'overCurrentContext',
+    //       topBar: {
+    //         visible: false,
+    //         drawBehind: true,
+    //       },
+    //     },
+    //   },
+    // });
   }
 
   onPressEdit = (image) => {
@@ -63,6 +72,9 @@ class CustomizeImage extends Component  {
 
   onPressApplyAll = () => {
     console.log('onPressApplyAll');
+    this.setState({
+      visible: 1,
+    });
   }
 
   render = () => {
@@ -84,7 +96,12 @@ class CustomizeImage extends Component  {
           source={{uri: 'file://' + this.state.selectedImage}}
           resizeMode="cover"
         >
-          <TouchableOpacity
+          {
+            this.state.visible == 1 ?
+              <Text style={{color: 'white', fontSize: 35}}>designed by Fern</Text>
+              : null
+          }
+          {/* <TouchableOpacity
             style={styles.editButton}
             onPress={() => this.onPressEdit(this.state.selectedImage)}
           >
@@ -93,7 +110,7 @@ class CustomizeImage extends Component  {
               source={require('./assets/edit_button.png')}
               resizeMode="contain"
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </ImageBackground>
       </View>
     )
@@ -187,8 +204,10 @@ const styles = StyleSheet.create({
   viewItem: {
     width: '100%',
     height: '100%',
-    flexDirection: 'row-reverse',
-    alignItems: 'flex-end'
+    // flexDirection: 'row-reverse',
+    // alignItems: 'flex-end'
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   editButton: {
     marginBottom: 10,

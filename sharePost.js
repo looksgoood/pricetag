@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, ImageBackground } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 import Share from 'react-native-share';
@@ -13,12 +13,14 @@ class SharePost extends Component  {
 
   onPressBack = () => {
     console.log("onPressBack");
-    Navigation.dismissModal(this.props.componentId);
+    // Navigation.dismissModal(this.props.componentId);
+    Navigation.pop(this.props.componentId);
   }
 
   onPressEmpty = () => {
     console.log("onPressEmpty");
-    Navigation.dismissAllModals();
+    Navigation.pop(this.props.componentId);
+    // Navigation.dismissAllModals();
   }
 
   onPressFB = () => {
@@ -26,10 +28,24 @@ class SharePost extends Component  {
       url: 'https://dummyimage.com/600x400/000/fff',
       social: Share.Social.FACEBOOK
     };
-    
+    console.log("onPressFB " + this.props);
     Share.shareSingle(shareOptions)
     .then((res) => { console.log(res) })
     .catch((err) => { err && console.log(err); });
+
+    Navigation.setStackRoot(this.props.componentId,
+      {
+        component: {
+            name: 'example.Landing',
+          },
+          options: {
+            animations: {
+              setStackRoot: {
+                enabled: true,
+              },
+            },
+          },
+      });
   }
 
   onPressShare = () => {
@@ -38,8 +54,24 @@ class SharePost extends Component  {
     };
     
     Share.open(shareOptions)
-    .then((res) => { console.log(res) })
+    .then((res) => {
+      console.log(res)
+    })
     .catch((err) => { err && console.log(err); });
+
+    Navigation.setStackRoot(this.props.componentId,
+      {
+        component: {
+            name: 'example.Landing',
+          },
+          options: {
+            animations: {
+              setStackRoot: {
+                enabled: true,
+              },
+            },
+          },
+      });
   }
   onPressInsta = () => {
     const shareOptions = {
@@ -151,10 +183,14 @@ class SharePost extends Component  {
     return (
     <View style={styles.container}>
       {title}
-      <TouchableOpacity
-        style={styles.empty} 
-        onPress = {this.onPressEmpty}
-      />
+      <View style={styles.empty}>
+        <ImageBackground
+          style={styles.viewItem}
+          source={{uri: 'file://' + this.props.images[0]}}
+          resizeMode="cover"
+        >
+        </ImageBackground>
+      </View>
       {content}
     </View>);
   }
@@ -201,6 +237,12 @@ const styles = StyleSheet.create({
   },
   empty: {
     flex: 1,
+  },
+  viewItem: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   content: {
     flex: 1,
