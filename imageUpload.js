@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Dimensions
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 import ImagePicker from 'react-native-image-crop-picker';
-
+import {setI18nConfig, translate } from './contentGetters';
 let screanItemSize = (Dimensions.get('window').width - 50) / 3;
 
 class ImageUpload extends Component  {
@@ -13,6 +13,7 @@ class ImageUpload extends Component  {
       images: props.images,
       selectedImage: props.images[0],
     };
+    setI18nConfig();
   }
 
   state = {
@@ -61,7 +62,7 @@ class ImageUpload extends Component  {
           <Text style={styles.backButton}>{'<'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.nextButton} onPress={this.onPressNext}>
-          <Text style={styles.nextButton}>Next</Text>
+          <Text style={styles.nextButton}>{translate("next")}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -79,9 +80,9 @@ class ImageUpload extends Component  {
     const content = (
       <View style={styles.content}>
         <ScrollView>
-          <Text style={styles.contentTitle}>Upload Images</Text>
+          <Text style={styles.contentTitle}>{translate("upload-image-para-1")}</Text>
           <Text style={styles.contentDescription}>
-            {this.state.images.length} photos are selected to upload
+            {this.state.images.length} {translate("upload-image-para-2")}
           </Text>
           <View style={styles.imageContainer}>
             {this.state.images.map((curImage, i) => {

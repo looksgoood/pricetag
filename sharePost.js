@@ -3,10 +3,12 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'rea
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
 import Share from 'react-native-share';
+import {setI18nConfig, translate } from './contentGetters';
 
 class SharePost extends Component  {
   constructor(props) {
     super(props);
+    setI18nConfig();
   }
 
   onPressBack = () => {
@@ -67,14 +69,14 @@ class SharePost extends Component  {
       <View style={styles.content}>
         <ScrollView>
           <Text style={styles.contentTitle}>
-            Post Your Own{'\n'}Customized Feed{'\n'}to Online
+            {translate("share-image-para-1")}
           </Text>
           <Text style={styles.contentDescription}>
-            It’s show time to promote your own{'\n'}brand products to the public
+            {translate("share-image-para-2")}
           </Text>
           <View style={styles.share}>
             <Text style={styles.shareTitle}>
-              Post this feed via
+              {translate("share-image-para-3")}
             </Text>
             <View style={styles.shareContainer}>
               <TouchableOpacity
@@ -123,7 +125,7 @@ class SharePost extends Component  {
                     resizeMode="cover"
                   />
                 </TouchableOpacity>
-                <Text style={styles.shareText}>Save files</Text>
+                <Text style={styles.shareText}>{translate("share-image-para-4")}</Text>
               </View>
               <View style={styles.padding}/>
               <View stlye={styles.shareImageTextContainer}>
@@ -137,7 +139,7 @@ class SharePost extends Component  {
                     resizeMode="cover"
                   />
                 </TouchableOpacity>
-                <Text style={styles.shareText}>Share</Text>
+                <Text style={styles.shareText}>{translate("share-image-para-5")}</Text>
               </View>
             </View>
           </View>

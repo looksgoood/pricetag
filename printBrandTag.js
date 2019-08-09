@@ -3,11 +3,13 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, ToastAndro
 import { Navigation } from 'react-native-navigation';
 import Dialog, { DialogTitle, DialogFooter, DialogButton, DialogContent } from 'react-native-popup-dialog';
 // import {renderToCanvas} from "render-react-native-to-image"
+import {setI18nConfig, translate } from './contentGetters'
 import PropTypes from 'prop-types';
 
 class PrintBrandTag extends Component  {
   constructor(props) {
     super(props);
+    setI18nConfig();
   }
 
   state = {
@@ -28,7 +30,8 @@ class PrintBrandTag extends Component  {
   // TODO
   onPressPrintBrandTag = () => {
     console.log("onPressPrintBrandTag");
-    ToastAndroid.show("Congratulations! Printing has been completed.", ToastAndroid.SHORT);
+    let toastText = translate("after-print-complete");
+    ToastAndroid.show(toastText, ToastAndroid.SHORT);
     Navigation.setStackRoot(this.props.componentId,
     {
       component: {
@@ -56,7 +59,7 @@ class PrintBrandTag extends Component  {
           <Text style={styles.backButton}>{'<'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.printButton} onPress={this.onPressPrint}>
-          <Text style={styles.printButton}>Print</Text>
+          <Text style={styles.printButton}>{translate("print")}</Text>
         </TouchableOpacity>
         <Dialog
           visible={this.state.printDialog}
@@ -64,13 +67,13 @@ class PrintBrandTag extends Component  {
             this.setState({ printDialog: false });
           }}
           width={0.9}
-          dialogTitle={<DialogTitle title="Are Your sure to print this design out in a brand tag?" />}
+          dialogTitle={<DialogTitle title={translate("label-preview-modal-1-1")} />}
           footer={
             <DialogFooter>
-              <DialogButton text="Cancel" onPress={() => {
+              <DialogButton text={translate("cancel")} onPress={() => {
                 this.setState({ printDialog: false });
               }}/>
-              <DialogButton text="Print" onPress={() => {
+              <DialogButton text={translate("print")} onPress={() => {
                 this.setState({ printDialog: false });
                 this.onPressPrintBrandTag();
               }}/>
@@ -79,9 +82,7 @@ class PrintBrandTag extends Component  {
         >
           <DialogContent>
             <Text>
-              If you checked the design{'\n'}
-              and want to proceed{'\n'}
-              printing, press “Print”.
+              {translate("label-preview-modal-1-2")}
             </Text>
           </DialogContent>
         </Dialog>
@@ -91,14 +92,14 @@ class PrintBrandTag extends Component  {
     const content = (
       <View style={styles.content}>
         <Text style={styles.contentTitle}>
-          Print Out{'\n'}As a Brand Tag
+          {translate("label-preview-para-1")}
         </Text>
         <Text style={styles.contentDescription}>
-        With your customized edit,{'\n'}make your own Brand Tag for your{'\n'}product sale.
+          {translate("label-preview-para-2")}
         </Text>
         <View style={styles.brandTag}>
           <Text style={styles.brandTagTitle}>
-            Preview
+            {translate("label-preview-para-3")}
           </Text>
           <View style={styles.previewLine}/>
           <ScrollView horizontal={true}>
@@ -109,7 +110,9 @@ class PrintBrandTag extends Component  {
                   source={require('./assets/brandTag_front.png')}
                   resizeMode="cover"
                 />
-                <Text style={styles.brandTagText}>Front</Text>
+                <Text style={styles.brandTagText}>
+                  {translate("label-preview-para-4")}
+                </Text>
               </View>
             </View>
             <View style={styles.padding}/>
@@ -120,7 +123,9 @@ class PrintBrandTag extends Component  {
                   source={require('./assets/brandTag_back.png')}
                   resizeMode="cover"
                 />
-                <Text style={styles.brandTagText}>Back</Text>
+                <Text style={styles.brandTagText}>
+                  {translate("label-preview-para-5")}
+                </Text>
               </View>
             </View>
           </ScrollView>
@@ -129,7 +134,9 @@ class PrintBrandTag extends Component  {
               style={styles.editButton}
               onPress = {this.onPressApplyAll}
             >
-              <Text style={styles.editButtonText}>Edit</Text>
+              <Text style={styles.editButtonText}>
+                {translate("edit")}
+              </Text>
             </TouchableOpacity>
           </View>
           <View style={styles.brandTagInfoContainer}>
@@ -137,8 +144,7 @@ class PrintBrandTag extends Component  {
               style={styles.brandTagInfoText}
               onPress={this.onPressBrandTagInfo}
             >
-              What is Printing Out as{'\n'}
-              a Brand Tag?
+              {translate("label-preview-modal-2-1")}
             </Text>
             <Dialog
               visible={this.state.dialogVisible}
@@ -146,10 +152,10 @@ class PrintBrandTag extends Component  {
                 this.setState({ dialogVisible: false });
               }}
               width={0.9}
-              dialogTitle={<DialogTitle title="What is Printing Out as a Brand Tag?" />}
+              dialogTitle={<DialogTitle title={translate("label-preview-modal-2-1")} />}
               footer={
                 <DialogFooter>
-                  <DialogButton text="OK" onPress={() => {
+                  <DialogButton text={translate("ok")} onPress={() => {
                     this.setState({ dialogVisible: false });
                   }}/>
                 </DialogFooter>

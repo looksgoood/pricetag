@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, TextInput } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { TextField } from 'react-native-material-textfield';
+import {setI18nConfig, translate } from './contentGetters';
 import PropTypes from 'prop-types';
 
 class ProductProfile extends Component  {
@@ -18,6 +19,7 @@ class ProductProfile extends Component  {
     this.productNameRef = this.updateRef.bind(this, 'productName');
     this.productThaiNameRef = this.updateRef.bind(this, 'productThaiName');
     this.storyRef = this.updateRef.bind(this, 'story');
+    setI18nConfig();
   }
 
   state = {
@@ -108,7 +110,7 @@ class ProductProfile extends Component  {
     const content = (
       <View style={styles.content}>
         <Text style={styles.contentTitle}>
-          Fill out Product Information
+          {translate("product-profile-para-1")}
         </Text>
         <View style={styles.itemContainer}>
           <TextField
@@ -120,7 +122,7 @@ class ProductProfile extends Component  {
             onChangeText={this.onChangeText}
             onSubmitEditing={this.onSubmitProductName}
             returnKeyType='next'
-            label='Product Name(Eng Ver.)'
+            label={translate("product-profile-para-2")}
             error={errors.productName}
           />
           <TextField
@@ -132,13 +134,13 @@ class ProductProfile extends Component  {
             onChangeText={this.onChangeText}
             onSubmitEditing={this.onSubmitProductThaiName}
             returnKeyType='next'
-            label='Product Name(Thai Ver.) - Optional'
+            label={translate("product-profile-para-3")}
             error={errors.productThaiName}
           />
           <View style={styles.itemContainer}>
-            <Text style={styles.storyTitle}>Tell us about your story</Text>
+            <Text style={styles.storyTitle}>{translate("product-profile-para-4")}</Text>
             <Text style={styles.storyContent}>
-              Tell us about your product, its history and heritage.
+              {translate("product-profile-para-5")}
             </Text>
             <TextInput
               ref={this.storyRef}

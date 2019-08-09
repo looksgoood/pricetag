@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import ImagePicker from 'react-native-image-crop-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 import { setCustomText } from 'react-native-global-props';
-import {setI18nConfig, translate } from './contentGetters'
+import {setI18nConfig, translate } from './contentGetters';
 let screanItemSize = (Dimensions.get('window').width - 150) / 3;
 let buttonItemSize = (Dimensions.get('window').width - 140) / 2;
 
@@ -133,8 +133,7 @@ class Landing extends Component  {
           {translate("login-para-1")}
         </Text>
         <Text style={styles.onReadyDescription}>
-          A Simple Process to design your own{'\n'}
-          Branding to your product
+        {translate("main-para-3")}
         </Text>
         <View style={styles.moreContainer}>
           <TouchableOpacity
@@ -149,7 +148,7 @@ class Landing extends Component  {
                 />
               </View>
               <View style={styles.buttonCover}>
-                <Text style={styles.buttonText}>Post to Online</Text>
+                <Text style={styles.buttonText}>{translate("main-para-4")}</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -165,7 +164,7 @@ class Landing extends Component  {
                 />
               </View>
               <View style={styles.buttonCover}>
-                <Text style={styles.buttonText}>Print out as a Brand Tag</Text>
+                <Text style={styles.buttonText}>{translate("main-para-5")}</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -230,12 +229,10 @@ class Landing extends Component  {
           {this.state.images.length > 0 ? onReadyImages : addImages}
           <View style={styles.copyright}>
             <Text style={styles.copyrightTitle}>
-              Copyright © 2019 by Samsung OneWeek
+              {translate("main-para-6")}
             </Text>
             <Text style={styles.copyrightDesc}>
-              All rights reserved. This book or any portion thereof{'\n'}
-              may not be reproduced or used in any manner whatsoever{'\n'}
-              without the express written permission of the publisher
+              {translate("main-para-7")}
             </Text>
           </View>
         </ScrollView>

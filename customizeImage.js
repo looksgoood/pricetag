@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, ImageBackground, Dimensions } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PropTypes from 'prop-types';
-
+import {setI18nConfig, translate } from './contentGetters';
 let screanItemSize = (Dimensions.get('window').width - 50) / 3;
 
 class CustomizeImage extends Component  {
@@ -12,6 +12,7 @@ class CustomizeImage extends Component  {
       images: props.images,
       selectedImage: props.images[0],
     };
+    setI18nConfig();
   }
 
   state = {
@@ -100,9 +101,9 @@ class CustomizeImage extends Component  {
     const content = (
       <View style={styles.content}>
         <ScrollView>
-          <Text style={styles.contentTitle}>Customize{'\n'}Your Image</Text>
+          <Text style={styles.contentTitle}>{translate("editor-image-para-1")}</Text>
           <Text style={styles.contentDescription}>
-            You can attach your own{'\n'}decription, watermark, brand logo,{'\n'}signature and so on.
+            {translate("editor-image-para-2")}
           </Text>
           <View style={styles.imageContainer}>
             {this.props.images.map((curImage, i) => {

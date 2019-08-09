@@ -5,11 +5,13 @@ import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 're
 import AsyncStorage from '@react-native-community/async-storage';
 import LineLogin from 'react-native-line-sdk';
 import { setCustomText } from 'react-native-global-props';
+import {setI18nConfig, translate } from './contentGetters'
 import PropTypes from 'prop-types';
 
 class Login extends Component  {
   constructor(props) {
     super(props);
+    setI18nConfig();
     this.state = {
       images: props.images,
     };
@@ -131,17 +133,17 @@ class Login extends Component  {
               resizeMode="contain"
             />
             <Text style={styles.loginTextSubtitle}>
-              A convenient way to enhance your brand identity
+              {translate("login-para-1")}
             </Text>
             <Text style={styles.loginTextDescription}>
-            Start to Effectively make your products stand out in On/Off-line market by designing your own brand identity and applying it to the product.
+              {translate("login-para-2")}
             </Text>
           </View>
           <View style={styles.loginButtonContainer}>
             <View style={styles.loginLineContainer}>
               <View style={styles.loginLine}/>
               <Text style={styles.loginButtonText}>
-                Log in with
+                {translate("login-para-3")}
               </Text>
               <View style={styles.loginLine}/>
             </View>

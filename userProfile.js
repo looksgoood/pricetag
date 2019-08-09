@@ -4,6 +4,7 @@ import { Navigation } from 'react-native-navigation';
 import { TextField } from 'react-native-material-textfield';
 import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker';
+import {setI18nConfig, translate } from './contentGetters'
 import PropTypes from 'prop-types';
 
 import { YellowBox } from 'react-native';
@@ -18,6 +19,7 @@ YellowBox.ignoreWarnings([
 class UserProfile extends Component  {
   constructor(props) {
     super(props);
+    setI18nConfig();
 
     this.onFocus = this.onFocus.bind(this);
     this.onChangeText = this.onChangeText.bind(this);
@@ -230,7 +232,7 @@ class UserProfile extends Component  {
       <View style={styles.content}>
         <ScrollView>
           <Text style={styles.contentHeader}>
-            Fill out Your information
+            {translate("profile-para-1")}
           </Text>
           <View style={styles.profileContainer}>
             <View style={styles.imageContainer}>
@@ -267,7 +269,7 @@ class UserProfile extends Component  {
                 onChangeText={this.onChangeText}
                 onSubmitEditing={this.onSubmitName}
                 returnKeyType='next'
-                label='Name'
+                label={translate("profile-para-2")}
                 error={errors.name}
               />
               <TextField
@@ -279,7 +281,7 @@ class UserProfile extends Component  {
                 onChangeText={this.onChangeText}
                 onSubmitEditing={this.onSubmitThaiName}
                 returnKeyType='next'
-                label='Name (Thai Ver.)'
+                label={translate("profile-para-3")}
                 error={errors.thaiName}
               />
               <TextField
@@ -291,7 +293,7 @@ class UserProfile extends Component  {
                 onChangeText={this.onChangeText}
                 onSubmitEditing={this.onSubmitPhoneNumber}
                 returnKeyType='next'
-                label='Phone Number'
+                label={translate("profile-para-4")}
                 error={errors.phoneNumber}
               />
               <TextField
@@ -303,7 +305,7 @@ class UserProfile extends Component  {
                 onChangeText={this.onChangeText}
                 onSubmitEditing={this.onSubmitEmail}
                 returnKeyType='next'
-                label='Email'
+                label={translate("profile-para-5")}
                 error={errors.email}
               />
               <TextField
@@ -315,16 +317,15 @@ class UserProfile extends Component  {
                 onChangeText={this.onChangeText}
                 onSubmitEditing={this.onSubmitWebsite}
                 returnKeyType='next'
-                label='Website (expressed via QR Code)'
+                label={translate("profile-para-6")}
                 error={errors.website}
               />
             </View>
           </View>
           <View style={styles.itemContainer}>
-            <Text style={styles.goodTitle}>You're good at</Text>
+            <Text style={styles.goodTitle}>{translate("profile-para-8")}</Text>
             <Text style={styles.goodContent}>
-              Just name a simple few words to describe{'\n'}
-              what you’re good at. (100 word max.)
+              {translate("profile-para-9")}
             </Text>
             <TextField
               ref={this.goodRef}
@@ -335,7 +336,7 @@ class UserProfile extends Component  {
               onChangeText={this.onChangeText}
               onSubmitEditing={this.onSubmitGood}
               returnKeyType='next'
-              label='e.g. Traditional Weagving, Wood Carving'
+              label={translate("profile-para-10")}
               error={errors.good}
             />
           </View>
